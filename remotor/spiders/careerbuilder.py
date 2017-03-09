@@ -7,15 +7,13 @@ import scrapy
 from remotor.items import JobItem
 
 
-class WwrSpider(scrapy.Spider):
-    """Spider for We Work Remotely Python jobs.
-    """
-    name = "wwr"
-    root = "https://weworkremotely.com"
-    allowed_domains = ["weworkremotely.com"]
-    start_urls = ['https://weworkremotely.com/jobs/search?term=python']
+class CareerbuilderSpider(scrapy.Spider):
+    root = 'http://www.careerbuilder.com'
+    name = "careerbuilder"
+    allowed_domains = ["www.careerbuilder.com"]
+    start_urls = ['http://www.careerbuilder.com/jobs-remote-python']
 
-    job_selector = '//a[starts-with(@href, "/jobs/")]/@href'
+    job_selector = '//a[starts-with(@href, "/job/")]/@href'
 
     def parse(self, response):
         """Get the joblinks and hand them off.
@@ -36,10 +34,7 @@ class WwrSpider(scrapy.Spider):
         item = JobItem()
         item['url'] = response.url
         item['title'] = s.css('h1::text').extract_first()
-        item['company'] = s.css('.company::text').extract_first()
-        item['location'] = s.css('.location::text').extract_first()
-        item['text'] = s.css(
-            '.listing-container').xpath('div/text()').extract()
-        item['text'].extend(s.css(
-            '.listing-container').xpath('ul/li/text()').extract())
+        item['text'] = s.css('.job-facts::text').extract()
+        item['text'].extend(s.css('.item').css('.tag::text').extract())
+        item['text'].extend(s.css('.description::text').extract())
         yield item
