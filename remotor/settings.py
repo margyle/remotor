@@ -14,9 +14,12 @@ BOT_NAME = 'remotor'
 SPIDER_MODULES = ['remotor.spiders']
 NEWSPIDER_MODULE = 'remotor.spiders'
 
+LOG_FILE = 'remotor.info.log'
+LOG_LEVEL = 'INFO'
+LOG_SHORT_NAME = True
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-# USER_AGENT = 'remotor (+http://www.yourdomain.com)'
+USER_AGENT = 'Hire me for scraping jobs! (jamiebull1@gmail.com)'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
@@ -65,19 +68,15 @@ ROBOTSTXT_OBEY = False
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'remotor.pipelines.MongoDBPipeline': 300,
+    'remotor.pipelines.RemotorPipeline': 300,
+    'remotor.pipelines.MongoDBPipeline': 400,
+    'remotor.pipelines.EmailPipeline': 500,
 }
 
 MONGODB_SERVER = "localhost"
 MONGODB_PORT = 27017
 MONGODB_DB = "remotor"
 MONGODB_JOBS_COLLECTION = "jobs"
-
-FEED_EXPORTERS = {
-    'jsonlines': 'scrapy.exporters.JsonLinesItemExporter',
-}
-FEED_FORMAT = 'jsonlines'
-FEED_URI = '%(time)s.%(name)s.json'
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html

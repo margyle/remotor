@@ -22,6 +22,7 @@ class WwrSpider(scrapy.Spider):
         """
         s = Selector(response)
         joblinks = s.xpath(self.job_selector).extract()
+#        for joblink in joblinks[:1]:
         for joblink in joblinks:
             request = Request(
                 urljoin(self.root, joblink),

@@ -26,5 +26,5 @@ class WorkingnomadsSpider(scrapy.Spider):
                 item['url'] = (
                     "www.workingnomads.co/jobs/{0}".format(job['_source']['slug']))
             item['text'] = converter.handle(job['_source']['description'])
-            item['text'] = item['text'] + ' '.join(item.get('tags', []))
+            item['text'] = [item['text'] + ' '.join(item.get('tags', []))]
             yield item
