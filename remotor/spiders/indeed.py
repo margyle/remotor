@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+"""Scrape jobs from indeed.com.
+"""
 from urlparse import urljoin
 
 from scrapy import Request, Selector
@@ -8,8 +10,13 @@ from remotor.items import JobItem
 
 
 class IndeedSpider(scrapy.Spider):
-    root = 'https://www.indeed.com'
+    """Spider for indeed.com
+
+    This is a simple site with a single page of jobs, with links to the ads.
+
+    """
     name = "indeed"
+    root = 'https://www.indeed.com'
     allowed_domains = ["www.indeed.com"]
     start_urls = ['https://www.indeed.com/jobs?q=python&l=Remote']
 

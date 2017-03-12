@@ -1,3 +1,5 @@
+"""Identify technologies in job advertisement text.
+"""
 import json
 import os
 
@@ -14,6 +16,8 @@ with open(os.path.join(THIS_DIR, 'tags.json'), 'rb') as f_in:
 
 
 def get_tech(text):
+    """Get all technologies from the top 1000 tags on StackOverflow.
+    """
     sentences = sent_tokenize(text)
     techs = set()
     for s in sentences:
@@ -27,6 +31,15 @@ def get_tech(text):
 
 
 def test_get_tech():
+    """Test we get all the expected technologies.
+
+    False positives are less important than false negatives.
+
+    """
     text = "python javascript. ruby on rails, objective c"
     techs = get_tech(text)
-    assert techs == set(['python', 'javascript', 'ruby-on-rails', 'objective-c'])
+    assert all(
+        t in techs
+        for t in ['python', 'javascript', 'ruby-on-rails', 'objective-c']
+        )
+

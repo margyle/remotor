@@ -1,29 +1,25 @@
 # -*- coding: utf-8 -*-
+"""Scrape jobs from remoteworking.co.
+"""
 import json
 from urlparse import urljoin
 
 from scrapy import Request, Selector
 import scrapy
-from scrapy.http import HtmlResponse
-from scrapy.shell import inspect_response
 
 from remotor.items import JobItem
-
-
-def build_response(html):
-    request = Request(url='http://dummy.url')
-
-    response = HtmlResponse(url='http://dummy.url',
-        request=request,
-        body=html,
-        encoding='utf-8',
-        )
-    return response
+from remotor.spiders.utilities import build_response
 
 
 class RemoteworkingSpider(scrapy.Spider):
-    root = 'http://www.remoteworking.co'
+    """Spider for remoteworking.co
+
+    This is a simple site with a JSON object of jobs, with html containing
+    links to the ads.
+
+    """
     name = "remoteworking"
+    root = 'http://www.remoteworking.co'
     allowed_domains = ["remoteworking.co"]
     start_urls = [
         'http://www.remoteworking.co/jm-ajax/get_listings/?search_keywords=python&search_location=&search_categories%5B%5D=&per_page=20',
@@ -34,6 +30,8 @@ class RemoteworkingSpider(scrapy.Spider):
 
 
     def parse(self, response):
+        """Get the joblinks and hand them off.
+        """
         data = json.loads(response.text)
         html = data['html']
         response = build_response(html)
@@ -54,5 +52,6 @@ class RemoteworkingSpider(scrapy.Spider):
         item = JobItem()
         item['url'] = response.url
         item['title'] = s.css('h1::text').extract_first()
-        item['text'] = s.xpath('//div[@itemprop="description"]//text()').extract()
+        item['text'] = s.xpath(
+            '//div[@itemprop="description"]//text()').extract()
         yield item

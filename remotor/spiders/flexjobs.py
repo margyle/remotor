@@ -1,16 +1,23 @@
 # -*- coding: utf-8 -*-
+"""Scrape jobs from flexjobs.com.
+"""
 from urlparse import urljoin
 
 from scrapy import Request, Selector
 import scrapy
-from scrapy.shell import inspect_response
 
 from remotor.items import JobItem
 
 
 class FlexjobsSpider(scrapy.Spider):
-    root = "https://www.flexjobs.com"
+    """Spider for flexjobs.com
+
+    This is a two-layer site with a pagination page, with links to the ads from
+    the numbered pages.
+
+    """
     name = "flexjobs"
+    root = "https://www.flexjobs.com"
     allowed_domains = ["www.flexjobs.com"]
     start_urls = [
         'https://www.flexjobs.com/search?search=python&location=remote']
@@ -19,11 +26,10 @@ class FlexjobsSpider(scrapy.Spider):
         '//div[@id="joblistarea"]//a[starts-with(@href, "/publicjobs/")]/@href')
 
     def parse(self, response):
-        """Get the joblinks and hand them off.
+        """Get the pagination links and hand them off.
         """
         s = Selector(response)
         pagination = s.css('.pagination')
-#        inspect_response(response, self)
         pagelinks = pagination.xpath(
             '//a[contains(@href, "&page=")]/@href').extract()
         for pagelink in pagelinks:
@@ -35,6 +41,8 @@ class FlexjobsSpider(scrapy.Spider):
             yield request
 
     def parse_jobspage(self, response):
+        """Get the joblinks and hand them off.
+        """
         s = Selector(response)
         joblinks = s.xpath(self.job_selector).extract()
         for joblink in joblinks:

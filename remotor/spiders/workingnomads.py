@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+"""Scrape jobs from workingnomads.co.
+"""
 import json
 
 import html2text
@@ -8,6 +10,12 @@ from remotor.items import JobItem
 
 
 class WorkingnomadsSpider(scrapy.Spider):
+    """Spider for workingnomads.co
+
+    This is a simple site with a JSON object of jobs containing all the details
+    of the job with no need to follow any links.
+
+    """
     name = "workingnomads"
     allowed_domains = ["www.workingnomads.co"]
     start_urls = [

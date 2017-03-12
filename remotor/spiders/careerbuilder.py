@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+"""Scrape jobs from careerbuilder.com.
+"""
 from urlparse import urljoin
 
 from scrapy import Request, Selector
@@ -8,8 +10,13 @@ from remotor.items import JobItem
 
 
 class CareerbuilderSpider(scrapy.Spider):
-    root = 'http://www.careerbuilder.com'
+    """Spider for careerbuilder.com.
+
+    This is a simple site with a single page of jobs, with links to the ads.
+
+    """
     name = "careerbuilder"
+    root = 'http://www.careerbuilder.com'
     allowed_domains = ["www.careerbuilder.com"]
     start_urls = ['http://www.careerbuilder.com/jobs-remote-python']
 

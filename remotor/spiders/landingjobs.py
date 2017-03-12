@@ -1,22 +1,30 @@
 # -*- coding: utf-8 -*-
+"""Scrape jobs from landing.jobs.
+"""
 import json
 from urlparse import urljoin
 
 from scrapy import Request, Selector
 import scrapy
-from scrapy.shell import inspect_response
 
 from remotor.items import JobItem
 
 
 class LandingjobsSpider(scrapy.Spider):
-    root = 'https://landing.jobs'
+    """Spider for landing.jobs
+
+    This is a simple site with a JSON object of jobs, with url links to the ads.
+
+    """
     name = "landingjobs"
+    root = 'https://landing.jobs'
     allowed_domains = ["landing.jobs"]
     start_urls = [
         'https://landing.jobs/offers/search.json?page=1&q=python&full_remote=true']
 
     def parse(self, response):
+        """Get the joblinks and hand them off.
+        """
         data = json.loads(response.text)
         joblinks = [job['url'] for job in data['offers']]
         for joblink in joblinks:
@@ -29,7 +37,6 @@ class LandingjobsSpider(scrapy.Spider):
     def parse_job(self, response):
         """Parse a joblink into a JobItem.
         """
-#        inspect_response(response, self)
         s = Selector(response)
         item = JobItem()
         item['url'] = response.url

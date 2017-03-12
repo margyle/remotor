@@ -1,22 +1,32 @@
 # -*- coding: utf-8 -*-
+"""Scrape jobs from virtualvocations.com.
+"""
 from urlparse import urljoin
 
 from scrapy import FormRequest, Request, Selector
 import scrapy
-from scrapy.shell import inspect_response
 
 from remotor.items import JobItem
 
 
 class VirtualvocationsSpider(scrapy.Spider):
-    root = "https://www.virtualvocations.com"
+    """Spider for virtualvocations.com
+
+    This is a two-layer site with a pagination page, with links to the ads from
+    the numbered pages. The first query is a POST request which means we use
+    start_requests() rather than start_urls.
+
+    """
     name = "virtualvocations"
+    root = "https://www.virtualvocations.com"
     allowed_domains = ["www.virtualvocations.com"]
 
     job_selector = (
         '//a[starts-with(@href, "{0}/job/")]/@href'.format(root))
 
     def start_requests(self):
+        """Submit a POST request with our query parameters.
+        """
         return [
             FormRequest("https://www.virtualvocations.com/jobs/",
                 formdata={'search': 'python', 'location': 'remote'},
@@ -24,7 +34,7 @@ class VirtualvocationsSpider(scrapy.Spider):
                 ]
 
     def parse(self, response):
-        """Get the joblinks and hand them off.
+        """Get the pagination links and hand them off.
         """
         s = Selector(response)
         pagination = s.css('.pagination')
@@ -40,9 +50,10 @@ class VirtualvocationsSpider(scrapy.Spider):
             yield request
 
     def parse_jobspage(self, response):
+        """Get the joblinks and hand them off.
+        """
         s = Selector(response)
         joblinks = s.xpath(self.job_selector).extract()
-#        for joblink in joblinks[:1]:
         for joblink in joblinks:
             request = Request(
                 urljoin(self.root, joblink),

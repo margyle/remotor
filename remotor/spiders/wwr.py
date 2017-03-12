@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-import os
+"""Scrape jobs from weworkremotely.com.
+"""
 from urlparse import urljoin
 
 from scrapy import Request, Selector
@@ -9,7 +10,10 @@ from remotor.items import JobItem
 
 
 class WwrSpider(scrapy.Spider):
-    """Spider for We Work Remotely Python jobs.
+    """Spider for weworkremotely.com
+
+    This is a simple site with a page of jobs containing links to the ads.
+
     """
     name = "wwr"
     root = "https://weworkremotely.com"
@@ -24,7 +28,6 @@ class WwrSpider(scrapy.Spider):
         self.logger.info("URI: %s" % self.settings['MONGODB_URI'])
         s = Selector(response)
         joblinks = s.xpath(self.job_selector).extract()
-#        for joblink in joblinks[:1]:
         for joblink in joblinks:
             request = Request(
                 urljoin(self.root, joblink),

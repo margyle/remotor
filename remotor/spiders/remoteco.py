@@ -1,19 +1,22 @@
 # -*- coding: utf-8 -*-
+"""Scrape jobs from remote.co.
+"""
 from urlparse import urljoin
 
 from scrapy import Request, Selector
 import scrapy
-from scrapy.shell import inspect_response
 
 from remotor.items import JobItem
 
 
 class RemotecoSpider(scrapy.Spider):
-    """Spider for We Work Remotely Python jobs.
-    """
-    root = "https://weworkremotely.com"
+    """Spider for remote.co
 
+    This is a simple site with a page of jobs, with links to the ads.
+
+    """
     name = "remoteco"
+    root = "https://remote.co"
     allowed_domains = ["remote.co"]
     start_urls = [
         'https://remote.co/jm-ajax/get_listings/?search_keywords=python']
@@ -26,7 +29,6 @@ class RemotecoSpider(scrapy.Spider):
         sel = Selector(response)
         joblinks = sel.xpath(self.job_selector).extract()
         joblinks = clean_links(joblinks)
-#        for joblink in list(joblinks)[:1]:
         for joblink in joblinks:
             request = Request(
                 urljoin(self.root, joblink),
@@ -51,7 +53,7 @@ class RemotecoSpider(scrapy.Spider):
 
 
 def clean_links(links):
-    """Generator returning useable links.
+    """Generator returning useable links by stripping escape characters.
     """
     for link in links:
         link = link[2:-1].replace('\\', '')

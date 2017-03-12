@@ -1,29 +1,26 @@
 # -*- coding: utf-8 -*-
+"""Scrape jobs from jobspresso.co.
+"""
 import json
 from urlparse import urljoin
 
 from scrapy import Selector
 import scrapy
-from scrapy.http import HtmlResponse, Request
-from scrapy.shell import inspect_response
+from scrapy.http import Request
 
 from remotor.items import JobItem
-
-
-def build_response(html):
-    request = Request(url='http://dummy.url')
-
-    response = HtmlResponse(url='http://dummy.url',
-        request=request,
-        body=html,
-        encoding='utf-8',
-        )
-    return response
+from remotor.spiders.utilities import build_response
 
 
 class JobspressoSpider(scrapy.Spider):
-    root = 'https://jobspresso.co'
+    """Spider for jobspresso.co
+
+    This is a simple site with a JSON object including html, with links to the
+    ads.
+
+    """
     name = "jobspresso"
+    root = 'https://jobspresso.co'
     allowed_domains = ["jobspresso.co"]
     start_urls = [
         'https://jobspresso.co/jm-ajax/get_listings/?search_keywords=python',
@@ -34,6 +31,8 @@ class JobspressoSpider(scrapy.Spider):
 
 
     def parse(self, response):
+        """Get the joblinks and hand them off.
+        """
         data = json.loads(response.text)
         html = data['html']
         response = build_response(html)
@@ -50,7 +49,6 @@ class JobspressoSpider(scrapy.Spider):
     def parse_job(self, response):
         """Parse a joblink into a JobItem.
         """
-#        inspect_response(response, self)
         s = Selector(response)
         item = JobItem()
         item['url'] = response.url
