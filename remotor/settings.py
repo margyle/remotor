@@ -13,7 +13,7 @@ SPIDER_MODULES = ['remotor.spiders']
 NEWSPIDER_MODULE = 'remotor.spiders'
 
 LOG_SHORT_NAME = True
-
+LOG_LEVEL = 'INFO'
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 USER_AGENT = 'Hire me for scraping jobs! (jamiebull1@gmail.com)'
 

@@ -32,7 +32,7 @@ class RemotorPipeline(object):
 
 
 class MongoDBPipeline(object):
-    """Pass JobItem into MongoDB fr storage.
+    """Pass JobItem into MongoDB for storage.
     """
     def __init__(self):
         """Connect to the database.
@@ -58,50 +58,57 @@ class MongoDBPipeline(object):
                 raise DropItem("Missing {0}!".format(data))
         if valid:
             if stored:
-                # if so, check date added
-                stored['times_seen'] += 1
+                item = stored
+                item['times_seen'] += 1
                 self.jobs_collection.update(
-                    {'_id': stored['_id']}, dict(stored), False)
-                spider.logger.debug(
-                    "{0} updated in Jobs database!".format(type(item)))
+                    {'_id': item['_id']}, dict(item), False)
             else:
                 # if not, add date to item
                 item['date_added'] = datetime.now().isoformat()
                 item['times_seen'] = 0
                 self.jobs_collection.insert(item)
-                spider.logger.debug(
-                    "{0} added to Jobs database!".format(type(item)))
         return item
 
 
 class EmailPipeline(object):
     """Email out job if it meets our requirements.
     """
-
     mailer = MailSender(
-        smtphost='smtp.gmail.com',
+        smtphost=os.environ.get('BOT_SMTP_HOST'),
         mailfrom=os.environ.get('BOT_EMAIL'),
-        smtpport=os.environ.get('BOT_SMTP_PORT'),
+        smtpport=int(os.environ.get('BOT_SMTP_PORT')),
         smtpuser=os.environ.get('BOT_EMAIL'),
         smtppass=os.environ.get('BOT_PASSWORD'),
         )
 
+    def __init__(self, stats):
+        self.stats = stats
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        return cls(crawler.stats)
+
     def process_item(self, item, spider):
         """Check if requirements are met, and if so send email.
         """
+        self.stats.set_value('ads/spider', spider.name)
         to_send = item['times_seen'] % (24 * 7) == 0  # once a week
         if not to_send:
+            self.stats.inc_value('ads/repeated')
             return
         techs = set(t for t in item['technologies'])
         desired = set(os.environ.get('DESIRED_TECHS').split(','))
         if not techs.intersection(desired):  # check for the desired techs
+            self.stats.inc_value('ads/no_desired_techs')
             return
         time.sleep(2)  # don't fire out too many emails at once
         title = item['title'].encode('utf-8')
         techs = ' - '.join(item['technologies']).encode('utf-8')
+        text = item['text'].encode('utf-8')
         self.mailer.send(
             to=[os.environ.get('USER_EMAIL')],
             subject='{title}: {techs}'.format(**locals()),
-            body=item['url'] + '\r\n' + item['text'].encode('utf-8'),
+            body=item['url'].encode('utf-8') + '\r\n' + text,
             charset='utf-8',
             )
+        self.stats.inc_value('ads/emailed')

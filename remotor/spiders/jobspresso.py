@@ -38,7 +38,6 @@ class JobspressoSpider(scrapy.Spider):
         response = build_response(html)
         s = Selector(response)
         joblinks = s.xpath(self.job_selector).extract()
-        self.logger.info(joblinks)
         for joblink in joblinks:
             request = Request(
                 urljoin(self.root, joblink),
