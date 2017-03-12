@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
+import os
 import re
+import time
 
 import pymongo
 from scrapy.conf import settings
@@ -27,11 +29,13 @@ class RemotorPipeline(object):
 class MongoDBPipeline(object):
 
     def __init__(self):
-        connection = pymongo.MongoClient(
-            settings['MONGODB_SERVER'],
-            settings['MONGODB_PORT']
-        )
-        db = connection[settings['MONGODB_DB']]
+        client = pymongo.MongoClient(
+            os.environ.get('MONGODB_URI'),
+            connectTimeoutMS=30000,
+            socketTimeoutMS=None,
+            socketKeepAlive=True
+            )
+        db = client.get_default_database()
         self.jobs_collection = db[settings['MONGODB_JOBS_COLLECTION']]
 
     def process_item(self, item, spider):
@@ -46,7 +50,7 @@ class MongoDBPipeline(object):
             if stored:
                 # if so, check date added
                 stored['times_seen'] += 1
-                stored['to_send'] = stored['times_seen'] % 56 == 0
+                stored['to_send'] = stored['times_seen'] % (24 * 7) == 0
                 self.jobs_collection.update(
                     {'_id': stored['_id']}, dict(stored), False)
                 spider.logger.debug(
@@ -76,10 +80,11 @@ class EmailPipeline(object):
         if not item.get('to_send'):
             return
         techs = set(t for t in item['technologies'])
-        desired = set(['python', 'scrapy'])
+        desired = set(['python', 'scrapy', 'web-scraping'])
         if not techs.intersection(desired):
             item['to_send'] = False
         if item['to_send']:
+            time.sleep(2)
             title = item['title'].encode('utf-8')
             techs = ' - '.join(item['technologies']).encode('utf-8')
             self.mailer.send(

@@ -8,14 +8,13 @@
 #     http://doc.scrapy.org/en/latest/topics/settings.html
 #     http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
-
 BOT_NAME = 'remotor'
 
 SPIDER_MODULES = ['remotor.spiders']
 NEWSPIDER_MODULE = 'remotor.spiders'
 
-LOG_FILE = 'remotor.info.log'
-LOG_LEVEL = 'INFO'
+# LOG_FILE = 'remotor.info.log'
+# LOG_LEVEL = 'INFO'
 LOG_SHORT_NAME = True
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
@@ -73,9 +72,6 @@ ITEM_PIPELINES = {
     'remotor.pipelines.EmailPipeline': 500,
 }
 
-MONGODB_SERVER = "localhost"
-MONGODB_PORT = 27017
-MONGODB_DB = "remotor"
 MONGODB_JOBS_COLLECTION = "jobs"
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -93,8 +89,8 @@ AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0
 
 # Enable and configure HTTP caching (disabled by default)
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html#httpcache-middleware-settings
-HTTPCACHE_ENABLED = True
-HTTPCACHE_EXPIRATION_SECS = 0
-HTTPCACHE_DIR = 'httpcache'
+# HTTPCACHE_ENABLED = True
+# HTTPCACHE_EXPIRATION_SECS = 0
+# HTTPCACHE_DIR = 'httpcache'
 # HTTPCACHE_IGNORE_HTTP_CODES = []
 # HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'

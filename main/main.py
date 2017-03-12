@@ -9,11 +9,9 @@ from scrapy.conf import settings
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.join(THIS_DIR, os.pardir)
 
-scrapy = 'C:\\Users\\Jamie\\Miniconda2\\envs\\remotor\\Scripts\\scrapy.exe'
-
 
 def worker(spider):
-    subprocess.check_call([scrapy, 'crawl', spider])
+    subprocess.check_call(['scrapy', 'crawl', spider])
 
 
 def main():
@@ -21,9 +19,9 @@ def main():
     spiders_module = settings.get('NEWSPIDER_MODULE').replace('.', os.sep)
     path = os.path.abspath(os.path.join(PROJECT_ROOT, spiders_module))
     spiders = glob('{path}/*.py'.format(**locals()))
-    spiders = (
+    spiders = [
         os.path.basename(s)[:-3] for s in spiders
-            if not s.endswith('__init__.py'))
+            if not s.endswith('__init__.py')]
     threads = []
     for spider in spiders:
         t = threading.Thread(target=worker, args=(spider,))
