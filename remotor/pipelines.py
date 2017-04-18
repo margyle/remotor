@@ -27,8 +27,8 @@ class RemotorPipeline(object):
         """Clean the text and title and identify technologies in the ad.
         """
         item['text'] = clean_text(item['text'])
-        item['title'] = clean_text(item['title'])
-        item['technologies'] = get_tech(item['title'])
+        title = clean_text([item['title']])
+        item['technologies'] = get_tech(title)
         item['technologies'].extend(get_tech(item['text']))
         return item
 
