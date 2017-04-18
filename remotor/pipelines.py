@@ -24,10 +24,12 @@ class RemotorPipeline(object):
     """Basic processing of the JobItem.
     """
     def process_item(self, item, spider):
-        """Clean the text and identify technologies in the ad.
+        """Clean the text and title and identify technologies in the ad.
         """
         item['text'] = clean_text(item['text'])
-        item['technologies'] = get_tech(item['text'])
+        item['title'] = clean_text(item['title'])
+        item['technologies'] = get_tech(item['title'])
+        item['technologies'].extend(get_tech(item['text']))
         return item
 
 
