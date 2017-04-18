@@ -92,11 +92,13 @@ class EmailPipeline(object):
         """Check if requirements are met, and if so send email.
         """
         self.stats.set_value('ads/spider', spider.name)
-        to_send = item['times_seen'] % (24 * 7) == 0  # once a week
+        to_send = item['times_seen'] == 0  # once only
         if not to_send:
             self.stats.inc_value('ads/repeated')
             return
+        ignored = set(os.environ.get('IGNORED_TECHS').split(','))
         techs = set(t for t in item['technologies'])
+        techs = techs.difference(ignored)
         desired = set(os.environ.get('DESIRED_TECHS').split(','))
         if not techs.intersection(desired):  # check for the desired techs
             self.stats.inc_value('ads/no_desired_techs')
