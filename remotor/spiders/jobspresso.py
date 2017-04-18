@@ -51,6 +51,6 @@ class JobspressoSpider(scrapy.Spider):
         s = Selector(response)
         item = JobItem()
         item['url'] = response.url
-        item['title'] = s.css('h1::text').extract_first()
+        item['title'] = s.css('h2::text').extract_first()
         item['text'] = s.xpath('//div[@itemprop="description"]//text()').extract()
         yield item
