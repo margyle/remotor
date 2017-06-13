@@ -4,7 +4,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 
-class Tech(models.Model):
+class Keyword(models.Model):
     name = models.CharField(max_length=255, unique=True)
     app_label = 'board'
 
@@ -13,11 +13,11 @@ class Tech(models.Model):
         return self.name
 
 
-class RequiredTech(Tech):
+class RequiredKeyword(Keyword):
     required = True
 
 
-class ExcludedTech(Tech):
+class ExcludedKeyword(Keyword):
     required = False
 
 
@@ -31,8 +31,8 @@ class Language(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    required_techs = models.ManyToManyField(RequiredTech)
-    excluded_techs = models.ManyToManyField(ExcludedTech)
+    required_techs = models.ManyToManyField(RequiredKeyword)
+    excluded_techs = models.ManyToManyField(ExcludedKeyword)
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):

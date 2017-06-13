@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
-from django.conf.global_settings import LOGOUT_REDIRECT_URL
+# from django.conf.global_settings import LOGOUT_REDIRECT_URL
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -83,6 +83,7 @@ DATABASES = {
     }
 }
 
+LOGIN_URL = "/login/"
 LOGOUT_REDIRECT_URL = "/index/"
 LOGIN_REDIRECT_URL = "/index/"
 

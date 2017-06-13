@@ -1,5 +1,7 @@
+from django.contrib.auth.models import User
 from django.test import LiveServerTestCase, TestCase
 from django.test.client import Client
+
 from .forms import UserForm
 
 
@@ -48,12 +50,42 @@ class TestRegistration(LiveServerTestCase):
         self.assertTrue('Login' in response.content)
 
 
-class TestCreateUserProfile(TestCase):
+class TestCreateUser(TestCase):
+    """Test a form to add a user behaves as expected."""
     def test_valid_data(self):
-        """Test we the form is validated."""
-        form = UserForm({'firstname': "firstname",
-                         'lastname': "lastname",
-                         'username': "username",
+        """Test the form is validated."""
+        form = UserForm({'username': "username",
+                         'password1': 'xxxxyyyy',
+                         'password2': 'xxxxyyyy',
                          'email': "user@example.com",
                          })
         self.assertTrue(form.is_valid())
+        form.save()
+        user = User.objects.first()
+        self.assertEqual(user.username, "username")
+        self.assertTrue(user.password)
+        self.assertEqual(user.email, "user@example.com")
+        self.assertTrue(user.profile)
+
+    def test_no_data(self):
+        """Test the form is not validated if blank."""
+        form = UserForm({})
+        self.assertFalse(form.is_valid())
+
+
+class TestEditProfile(LiveServerTestCase):
+    fixtures = ['users.json']
+
+    def setUp(self):
+        self.client = Client()
+
+    def test_profile(self):
+        """Test we get a response from /profile/."""
+        response = self.client.get('/profile/')
+        self.assertEqual(response.status_code, 302)
+        response = self.client.get(response.url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue('Login' in response.content)
+        self.client.login(username='xxx', password="xxxxyyyy")
+        response = self.client.get('/profile/')
+        self.assertEqual(response.status_code, 200)
