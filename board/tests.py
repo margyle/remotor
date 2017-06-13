@@ -89,3 +89,24 @@ class TestEditProfile(LiveServerTestCase):
         self.client.login(username='xxx', password="xxxxyyyy")
         response = self.client.get('/profile/')
         self.assertEqual(response.status_code, 200)
+
+    def test_add_required_techs(self):
+        self.client.login(username='xxx', password="xxxxyyyy")
+        data = {'required_techs': 'django,python'}
+        response = self.client.post('/profile/', data=data)
+        self.assertEqual(response.status_code, 302)
+        response = self.client.get(response.url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue('django' in response.content)
+        self.assertTrue('python' in response.content)
+
+    def test_add_excluded_techs(self):
+        self.client.login(username='xxx', password="xxxxyyyy")
+        data = {'excluded_techs': 'django,python'}
+        response = self.client.post('/profile/', data=data)
+        self.assertEqual(response.status_code, 302)
+        response = self.client.get(response.url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue('django' in response.content)
+        self.assertTrue('python' in response.content)
+

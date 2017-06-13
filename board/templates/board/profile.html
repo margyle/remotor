@@ -4,6 +4,7 @@
   <h2>Select technologies</h2>
   <form method="post">
     {% csrf_token %}
+    <input type="hidden" name="id_user" value={{ user.id }}>
     <table>
     	{{ form.as_table }}
     </table>
@@ -23,4 +24,12 @@
 	        </div>
 	    {% endfor %}
 	{% endif %}
+  <h2>Required keywords</h2>
+  {% for tech in user.profile.required_techs.all %}
+    <p>{{ tech.name }}</p>
+  {% endfor %}
+  <h2>Excluded keywords</h2>
+  {% for tech in user.profile.excluded_techs.all %}
+    <p>{{ tech.name }}</p>
+  {% endfor %}
 {% endblock %}

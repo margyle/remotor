@@ -1,8 +1,9 @@
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
-from django.contrib.auth.forms import UserCreationForm
+
 from .forms import ProfileForm
-from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class IndexView(TemplateView):
@@ -44,5 +45,15 @@ class ProfileView(LoginRequiredMixin, FormView):
         form = self.get_form(self.form_class)
         context = self.get_context_data(**kwargs)
         context['form'] = form
+        context['user'] = request.user
         return self.render_to_response(context)
 
+    def post(self, request, *args, **kwargs):
+        """Handle the submitted form."""
+        profile_form = ProfileForm(request.POST, instance=request.user.profile)
+        if profile_form.is_valid():
+            profile_form.save()
+            return self.form_valid(profile_form)
+        else:
+            print(profile_form.errors)
+            return self.form_invalid(profile_form, **kwargs)

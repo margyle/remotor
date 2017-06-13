@@ -23,7 +23,9 @@ from board import views as board_views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^index/$', board_views.IndexView.as_view(), name='index'),
-    url(r'^profile/$', board_views.ProfileView.as_view(), name='profile'),
+    url(r'^profile/$',
+        board_views.ProfileView.as_view(success_url="/profile/"),
+        name='profile'),
     url(r'^signup/$',
         board_views.SignupView.as_view(success_url="/index/"),
         name='signup'),
