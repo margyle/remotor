@@ -1,0 +1,9 @@
+{% extends 'board/base.html' %}
+{% block content %}
+	{% if user.is_authenticated %}
+	  <p>Hello {{ user.username }} !!!</p>       
+	  <p>Profile {{ user.email }} !!!</p>       
+	{% else %}
+	  <p>Hello world!</p>
+	{% endif %}
+{% endblock %}
