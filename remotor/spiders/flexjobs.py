@@ -59,6 +59,7 @@ class FlexjobsSpider(scrapy.Spider):
         s = Selector(response)
         item = JobItem()
         item['url'] = response.url
+        item['site'] = 'FlexJobs'
         item['title'] = s.css('h1::text').extract_first()
         item['text'] = s.css('#job-description p::text').extract()
         item['text'].extend(s.css('td::text, th::text').extract())

@@ -33,6 +33,7 @@ class WorkingnomadsSpider(scrapy.Spider):
             except KeyError:
                 item['url'] = (
                     "www.workingnomads.co/jobs/{0}".format(job['_source']['slug']))
+            item['site'] = 'WorkingNomads'
             item['text'] = converter.handle(job['_source']['description'])
             item['text'] = [item['text'] + ' '.join(item.get('tags', []))]
             yield item

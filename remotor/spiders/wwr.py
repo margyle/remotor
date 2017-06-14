@@ -41,6 +41,7 @@ class WwrSpider(scrapy.Spider):
         s = Selector(response)
         item = JobItem()
         item['url'] = response.url
+        item['site'] = 'WeWorkRemotely'
         item['title'] = s.css('h1::text').extract_first()
         item['company'] = s.css('.company::text').extract_first()
         item['location'] = s.css('.location::text').extract_first()

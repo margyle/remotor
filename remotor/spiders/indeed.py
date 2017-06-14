@@ -47,6 +47,7 @@ class IndeedSpider(scrapy.Spider):
         """Parse a joblink into a JobItem.
         """
         item = response.meta['item']
+        item['site'] = 'Indeed'
         s = Selector(response)
         item['text'].extend(s.xpath('//p/text()').extract())
         item['text'].extend(s.xpath('//ul/text()').extract())
