@@ -25,9 +25,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'cesw41-0_+-m@ipf(46cvyxm$dz4k9x8=@-cxq9y@6dz7vds48'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['remotor.herokuapp.com']
 
 
 # Application definition
@@ -39,8 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
-    'rest_framework_mongoengine',
     'board',
     'api',
 ]
