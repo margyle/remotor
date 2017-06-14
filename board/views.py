@@ -14,10 +14,13 @@ class IndexView(TemplateView):
     """Main view for the eventual single page app."""
     template_name = 'board/index.html'
     def get(self, request, *args, **kwargs):
-        techs = request.user.profile.required_techs.all()
-        exclude = request.user.profile.excluded_techs.all()
-        techs = ','.join(tech.name for tech in techs)
-        exclude = ','.join(tech.name for tech in exclude)
+        if request.user.is_authenticated():
+            techs = request.user.profile.required_techs.all()
+            exclude = request.user.profile.excluded_techs.all()
+            techs = ','.join(tech.name for tech in techs)
+            exclude = ','.join(tech.name for tech in exclude)
+        else:
+            techs, exclude = '', ''
         res = requests.get('%s:%s/api/v1/jobs/' % (
                 settings.JOBS_API['HOST'],
                 settings.JOBS_API['PORT']),
