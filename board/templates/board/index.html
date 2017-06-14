@@ -1,14 +1,17 @@
 {% extends 'board/base.html' %}
 {% block content %}
 	{% if user.is_authenticated %}
-	  <p>Hello {{ user.username }} !!!</p>       
+	  <p>Hello {{ user.username }}!</p>       
 	{% else %}
-	  <p>Hello world!</p>
+	  <p>Hello anonymous user!</p>
 	{% endif %}
 	<h2>Jobs</h2>
 	{% for job in jobs %}
 	   <div class="job">
            <a href="{{ job.url }}"><h3>{{ job.title }}</h3></a>
+           {% if job.site %}
+               <p>From: {{ job.site }}</p>
+           {% endif %}
            <p class="text">{{ job.text }}</p>
            <ul>
              {% for tech in job.technologies %}
