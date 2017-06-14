@@ -1,16 +1,25 @@
+import json
+
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
+import requests
 
 from .forms import ProfileForm
+from django.conf import settings
 
 
 class IndexView(TemplateView):
     """Main view for the eventual single page app."""
     template_name = 'board/index.html'
     def get(self, request, *args, **kwargs):
-        return self.render_to_response(request)
+        res = requests.get('%s:%s/api/v1/jobs/?n=10' % (
+            settings.JOBS_API['HOST'], settings.JOBS_API['PORT']))
+        jobs = json.loads(res.json())
+        context = self.get_context_data(**kwargs)
+        context['jobs'] = jobs
+        return self.render_to_response(context)
 
 
 class SignupView(FormView):

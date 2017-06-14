@@ -2,8 +2,19 @@
 {% block content %}
 	{% if user.is_authenticated %}
 	  <p>Hello {{ user.username }} !!!</p>       
-	  <p>Profile {{ user.email }} !!!</p>       
 	{% else %}
 	  <p>Hello world!</p>
 	{% endif %}
+	<h2>Jobs</h2>
+	{% for job in jobs %}
+	   <div class="job">
+           <a href="{{ job.url }}"><h3>{{ job.title }}</h3></a>
+           <p class="text">{{ job.text }}</p>
+           <ul>
+             {% for tech in job.technologies %}
+               <li>{{ tech }}</li>
+             {% endfor %}
+           </ul>
+	   </div>
+	{% endfor %}
 {% endblock %}
