@@ -1,5 +1,6 @@
 Django==1.10.5
 djangorestframework==3.6.3
+django-rest-framework-mongoengine==3.3.1
 gunicorn==19.7.1
 html2text==2016.9.19
 nltk==3.2.2
