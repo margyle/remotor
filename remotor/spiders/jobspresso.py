@@ -23,7 +23,7 @@ class JobspressoSpider(scrapy.Spider):
     root = 'https://jobspresso.co'
     allowed_domains = ["jobspresso.co"]
     start_urls = [
-        'https://jobspresso.co/jm-ajax/get_listings/?search_keywords=python',
+        'https://jobspresso.co/jm-ajax/get_listings/?search_keywords=remote',
         ]
 
     job_selector = (
@@ -52,6 +52,8 @@ class JobspressoSpider(scrapy.Spider):
         item = JobItem()
         item['url'] = response.url
         item['site'] = 'Jobspresso'
-        item['title'] = s.css('h2::text').extract_first()
-        item['text'] = s.xpath('//div[@itemprop="description"]//text()').extract()
+        item['title'] = s.xpath(
+            '//h2[@class="page-title"]//text()').extract_first()
+        item['text'] = s.xpath(
+            '//div[@itemprop="description"]//text()').extract()
         yield item
