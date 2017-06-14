@@ -17,18 +17,10 @@ from django.conf.urls import include
 from django.conf.urls import url
 from django.contrib import admin
 
-from board import views as board_views
+from .views import JobsView
 
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^index/$', board_views.IndexView.as_view(), name='index'),
-    url(r'^profile/$',
-        board_views.ProfileView.as_view(success_url="/profile/"),
-        name='profile'),
-    url(r'^signup/$',
-        board_views.SignupView.as_view(success_url="/index/"),
-        name='signup'),
-    url('^', include('django.contrib.auth.urls')),
-    url(r'^api/v1/', include('api.urls')),
+    url(r'^jobs/$', JobsView.as_view(), name='jobs'),
+
 ]

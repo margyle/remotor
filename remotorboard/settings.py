@@ -11,8 +11,11 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
-# from django.conf.global_settings import LOGOUT_REDIRECT_URL
 
+import mongoengine
+
+
+# from django.conf.global_settings import LOGOUT_REDIRECT_URL
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -38,8 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework_mongoengine',
     'board',
-#    'api',
+    'api',
 ]
 
 MIDDLEWARE = [
@@ -80,6 +85,16 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+
+MONGO_DB = {
+    'jobs': {
+        'ENGINE': 'django_mongodb_engine',
+        'NAME': 'remotr',
+        'HOST': 'mongodb://t68KHXWnKpq78O9r:C2CSjssrTMYGT50D@ds123930.mlab.com',
+        'PORT': 23930,
+        'COLLECTION': 'jobs'
     }
 }
 
