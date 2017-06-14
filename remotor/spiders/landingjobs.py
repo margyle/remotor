@@ -42,6 +42,10 @@ class LandingjobsSpider(scrapy.Spider):
         item['url'] = response.url
         item['site'] = 'LandingJobs'
         item['title'] = s.css('h1::text').extract_first()
+        item['html'] = s.xpath(
+            '//section[@class="ld-job-details"]').extract()
+        item['html'].extend(s.xpath(
+            '//section[@class="ld-job-offer-section"]').extract())
         item['text'] = s.xpath(
             '//section[@class="ld-job-details"]//text()').extract()
         item['text'].extend(s.xpath(

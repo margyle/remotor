@@ -52,6 +52,8 @@ class RemoteworkingSpider(scrapy.Spider):
         item['url'] = response.url
         item['site'] = 'RemoteWorking'
         item['title'] = s.css('h1::text').extract_first()
+        item['html'] = s.xpath(
+            '//div[@itemprop="description"]').extract()
         item['text'] = s.xpath(
             '//div[@itemprop="description"]//text()').extract()
         yield item

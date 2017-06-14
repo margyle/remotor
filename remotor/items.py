@@ -14,6 +14,7 @@ class JobItem(scrapy.Item):
     site = scrapy.Field()
     technologies = scrapy.Field()
     location = scrapy.Field()
+    html = scrapy.Field()
     text = scrapy.Field()
     date_added = scrapy.Field()
     date_added = scrapy.Field()

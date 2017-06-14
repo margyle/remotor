@@ -45,6 +45,10 @@ class WwrSpider(scrapy.Spider):
         item['title'] = s.css('h1::text').extract_first()
         item['company'] = s.css('.company::text').extract_first()
         item['location'] = s.css('.location::text').extract_first()
+        item['html'] = s.css(
+            '.listing-container').xpath('div').extract()
+        item['html'].extend(s.css(
+            '.listing-container').xpath('ul/li').extract())
         item['text'] = s.css(
             '.listing-container').xpath('div/text()').extract()
         item['text'].extend(s.css(

@@ -48,6 +48,8 @@ class RemotecoSpider(scrapy.Spider):
             '//strong[@itemprop="name"]/text()').extract_first()
         job = s.css('.job-description')
         job.xpath('p[1]')
+        item['html'] = s.xpath(
+            '//div[@class="job_description"]').extract()
         item['text'] = s.xpath(
             '//div[@class="job_description"]//text()').extract()
         yield item

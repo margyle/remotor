@@ -34,6 +34,8 @@ class IndeedSpider(scrapy.Spider):
             item = JobItem()
             item['url'] = urljoin(self.root, joblink)
             item['title'] = job.xpath('h2/a/@title').extract_first()
+            item['html'] = job.xpath(
+                'table//span[@class="summary"]').extract()
             item['text'] = job.xpath(
                 'table//span[@class="summary"]/text()').extract()
             request = Request(
@@ -49,6 +51,9 @@ class IndeedSpider(scrapy.Spider):
         item = response.meta['item']
         item['site'] = 'Indeed'
         s = Selector(response)
+        item['html'].extend(s.xpath('//p').extract())
+        item['html'].extend(s.xpath('//ul').extract())
+        item['html'].extend(s.xpath('//span').extract())
         item['text'].extend(s.xpath('//p/text()').extract())
         item['text'].extend(s.xpath('//ul/text()').extract())
         item['text'].extend(s.xpath('//span/text()').extract())
