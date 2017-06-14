@@ -12,8 +12,6 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
 
-import mongoengine
-
 
 # from django.conf.global_settings import LOGOUT_REDIRECT_URL
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
