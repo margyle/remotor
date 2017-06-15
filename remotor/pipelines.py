@@ -38,8 +38,8 @@ class RemotorPipeline(object):
     def process_item(self, item, spider):
         """Clean the text and title and identify technologies in the ad.
         """
-        item['text'] = clean_text(item['text'])
         item['presentable'] = make_presentable(item['text'])
+        item['text'] = clean_text(item['text'])
         title = clean_text([item['title']])
         item['technologies'] = get_tech(title)
         item['technologies'].extend(get_tech(item['text']))
