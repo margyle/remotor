@@ -23,6 +23,13 @@ def clean_text(text):
     normalised = ' '.join(t.strip().lower() for t in normalised if t != ' ')
     return normalised
 
+def make_presentable(text):
+    """Remove duplicated whitespace from text and format it to be presentable.
+    """
+    normalised = (re.sub(r'[^\S\r\n]', ' ', t) for t in text)
+    normalised = '\r\n'.join(t.strip() for t in normalised if t != ' ')
+    return normalised
+
 
 class RemotorPipeline(object):
     """Basic processing of the JobItem.
@@ -31,6 +38,7 @@ class RemotorPipeline(object):
         """Clean the text and title and identify technologies in the ad.
         """
         item['text'] = clean_text(item['text'])
+        item['presentable'] = make_presentable(item['text'])
         title = clean_text([item['title']])
         item['technologies'] = get_tech(title)
         item['technologies'].extend(get_tech(item['text']))

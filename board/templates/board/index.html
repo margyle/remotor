@@ -24,7 +24,11 @@
            {% if job.site %}
                <p>From: {{ job.site }}</p>
            {% endif %}
-           <p class="text">{{ job.text }}</p>
+           {% if job.presentable %}
+             <p class="text">{{ job.text }}</p>
+           {% else %}           
+             <p class="text">{{ job.text }}</p>
+           {% endif %}
            <ul>
              {% for tech in job.technologies %}
                <li>{{ tech }}</li>

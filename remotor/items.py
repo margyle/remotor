@@ -16,6 +16,7 @@ class JobItem(scrapy.Item):
     location = scrapy.Field()
     html = scrapy.Field()
     text = scrapy.Field()
+    presentable = scrapy.Field()
     date_added = scrapy.Field()
     date_added = scrapy.Field()
     times_seen = scrapy.Field()
