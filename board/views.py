@@ -30,6 +30,7 @@ class IndexView(TemplateView):
         for job in jobs:
             job['date_added'] = datetime.strptime(
                 job['date_added'], "%Y-%m-%dT%H:%M:%S.%f")
+            job['technologies'] = sorted(list(set(job['technologies'])))
         context = self.get_context_data(**kwargs)
         context['jobs'] = jobs
         return self.render_to_response(context)
