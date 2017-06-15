@@ -23,14 +23,15 @@ class JobsView(View):
             search = None
         skip = int(n) * int(p) - int(n)
         jobs_collection = jobs.jobs_collection
-        jobs_list = list(
-            jobs_collection.find(
+        found_jobs = jobs_collection.find(
                 skip=skip,
-                limit=int(n),
                 filter=search,
                 ).sort('date_added', -1)
-            )
+        response = {'count': found_jobs.count()}
+        response['pages'] = found_jobs.count() // n + 1
+        found_jobs = list(found_jobs.limit(int(n)))
+        response['jobs'] = found_jobs
         return JsonResponse(
-            json.dumps(jobs_list, default=json_util.default),
+            json.dumps(response, default=json_util.default),
             safe=False
             )

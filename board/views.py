@@ -26,7 +26,9 @@ class IndexView(TemplateView):
                 settings.JOBS_API['HOST'],
                 settings.JOBS_API['PORT']),
             params={'n': 10, 'techs': techs, 'exclude': exclude})
-        jobs = json.loads(res.json())
+        result = json.loads(res.json())
+        jobs = result['jobs']
+        total = result['count']
         for job in jobs:
             job['date_added'] = datetime.strptime(
                 job['date_added'], "%Y-%m-%dT%H:%M:%S.%f")
