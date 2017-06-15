@@ -28,7 +28,7 @@ class JobsView(View):
                 filter=search,
                 ).sort('date_added', -1)
         response = {'count': found_jobs.count()}
-        response['pages'] = found_jobs.count() // n + 1
+        response['pages'] = found_jobs.count() // int(n) + 1
         found_jobs = list(found_jobs.limit(int(n)))
         response['jobs'] = found_jobs
         return JsonResponse(
