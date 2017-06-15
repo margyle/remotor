@@ -24,8 +24,9 @@ DATABASES = {
     }
 }
 if PRODUCTION:
+    print("In production")
     SECRET_KEY = os.environ.get('SECRET_KEY')
-    DEBUG = True
+    DEBUG = False
     ALLOWED_HOSTS = ['remotor.herokuapp.com']
     JOBS_API = {
         'HOST': 'http://remotor.herokuapp.com',
@@ -35,6 +36,7 @@ if PRODUCTION:
     db_from_env = dj_database_url.config(conn_max_age=500)
     DATABASES['default'].update(db_from_env)
 else:
+    print("In development")
     SECRET_KEY = 'cesw41-0_+-m@ipf(46cvyxm$dz4k9x8=@-cxq9y@6dz7vds48'
     ALLOWED_HOSTS = []
     DEBUG = True
