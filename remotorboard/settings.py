@@ -28,7 +28,7 @@ if PRODUCTION:
     DEBUG = True
     ALLOWED_HOSTS = ['remotor.herokuapp.com']
     JOBS_API = {
-        'HOST': 'https://remotor.herokuapp.com',
+        'HOST': 'http://remotor.herokuapp.com',
         'PORT': 80,
     }
     import dj_database_url
