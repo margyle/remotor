@@ -28,6 +28,7 @@ def make_presentable(text):
     """Remove duplicated whitespace from text and format it to be presentable.
     """
     normalised = (re.sub(r'[^\S\r\n]', ' ', t) for t in text)
+    normalised = ' '.join(t.strip() for t in normalised if t != ' ')
     return normalised
 
 
