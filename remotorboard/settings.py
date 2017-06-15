@@ -12,23 +12,36 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
 
-
+PRODUCTION = os.environ.get('DJANGO_PRODUCTION', False)
 # from django.conf.global_settings import LOGOUT_REDIRECT_URL
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'cesw41-0_+-m@ipf(46cvyxm$dz4k9x8=@-cxq9y@6dz7vds48'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ['remotor.herokuapp.com']
-
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+if PRODUCTION:
+    SECRET_KEY = os.environ.get('SECRET_KEY')
+    DEBUG = False
+    ALLOWED_HOSTS = ['remotor.herokuapp.com']
+    JOBS_API = {
+        'HOST': 'https://remotor.herokuapp.com',
+        'PORT': 80,
+    }
+    import dj_database_url
+    db_from_env = dj_database_url.config(conn_max_age=500)
+    DATABASES['default'].update(db_from_env)
+else:
+    SECRET_KEY = 'cesw41-0_+-m@ipf(46cvyxm$dz4k9x8=@-cxq9y@6dz7vds48'
+    ALLOWED_HOSTS = []
+    DEBUG = True
+    JOBS_API = {
+        'HOST': 'http://localhost',
+        'PORT': 8000,
+    }
 
 # Application definition
 
@@ -77,13 +90,6 @@ WSGI_APPLICATION = 'remotorboard.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
 MONGO_DB = {
     'jobs': {
         'ENGINE': 'django_mongodb_engine',
@@ -92,11 +98,6 @@ MONGO_DB = {
         'PORT': 23930,
         'COLLECTION': 'jobs'
     }
-}
-
-JOBS_API = {
-    'HOST': 'http://localhost',
-    'PORT': 8000,
 }
 
 LOGIN_URL = "/login/"
