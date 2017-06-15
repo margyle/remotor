@@ -31,7 +31,7 @@
            {% endif %}
                <p>Added: {{ job.date_added | naturaltime }}</p>
            {% if job.presentable %}
-             <p class="text">{{ job.text }}</p>
+             <p class="text">{{ job.presentable | safe }}</p>
            {% else %}           
              <p class="text">{{ job.text }}</p>
            {% endif %}

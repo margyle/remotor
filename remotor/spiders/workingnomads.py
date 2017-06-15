@@ -2,6 +2,7 @@
 """Scrape jobs from workingnomads.co.
 """
 import json
+from urlparse import urljoin
 
 import html2text
 import scrapy
@@ -27,8 +28,9 @@ class WorkingnomadsSpider(scrapy.Spider):
         converter = html2text.HTML2Text()
         for job in data['hits']['hits']:
             item = JobItem()
-            item['url'] = (
-                "www.workingnomads.co/jobs/{0}".format(job['_source']['slug']))
+            item['url'] = urljoin(
+                "https://www.workingnomads.co/jobs/",
+                job['_source']['slug'])
             item['title'] = job['_source']['title']
             item['site'] = 'WorkingNomads'
             item['text'] = converter.handle(job['_source']['description'])
