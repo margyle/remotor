@@ -1,12 +1,15 @@
 {% extends 'board/base.html' %}
 {% load humanize %}
 {% block content %}
+    <div class="welcome">
 	{% if user.is_authenticated %}
 	  <p>Hello {{ user.username }}!</p>       
 	{% else %}
 	  <p>Hello anonymous user!</p>
 	{% endif %}
+	</div>
 	<h1>Remotor - Remote Python (and more) jobs</h1>
+	<div class="intro">
 	<p>This site is a work in progress so apologies in advance for the roughness
 	around the edges.</p>
 	<p>I firmly believe that the future of work is remote. Personally I'm based
@@ -18,6 +21,7 @@
 	which aren't tech-related.</p>
 	<p>This site is run on a totally voluntary basis and we aren't taking any
 	kind of a cut or kickback from the job sites.</p>
+	</div>
 	<h2>Jobs</h2>
 	{% for job in jobs %}
 	   <div class="job">
