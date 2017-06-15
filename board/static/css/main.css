@@ -1,0 +1,30 @@
+h1, h2, h3, h4{
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    text-transform: uppercase;
+    margin-bottom: 0px;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+a {
+    text-decoration: none;
+    text-align: center;
+    display: flex-inline;
+}
+.plan {
+	border: 1px solid #ccc;
+}
+.grid {
+    margin: 0 auto;
+    max-width: 1200px;
+    width: 100%;
+}
+
+.row {
+    width: 100%;
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+}
