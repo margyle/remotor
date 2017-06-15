@@ -13,6 +13,11 @@ a {
     text-align: center;
     display: flex-inline;
 }
+.job {
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+
 .plan {
 	border: 1px solid #ccc;
 }
