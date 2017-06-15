@@ -54,8 +54,6 @@ class JobspressoSpider(scrapy.Spider):
         item['site'] = 'Jobspresso'
         item['title'] = s.xpath(
             '//h2[@class="page-title"]//text()').extract_first()
-        item['html'] = s.xpath(
-            '//div[@itemprop="description"]').extract()
         item['text'] = s.xpath(
             '//div[@itemprop="description"]//text()').extract()
         yield item

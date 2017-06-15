@@ -69,6 +69,5 @@ class VirtualvocationsSpider(scrapy.Spider):
         item['url'] = response.url
         item['site'] = 'VirtualVocations'
         item['title'] = s.css('h1::text').extract_first()
-        item['html'] = s.xpath('//div[@id="job_details"]').extract()
         item['text'] = s.xpath('//div[@id="job_details"]//text()').extract()
         yield item

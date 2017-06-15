@@ -61,8 +61,6 @@ class FlexjobsSpider(scrapy.Spider):
         item['url'] = response.url
         item['site'] = 'FlexJobs'
         item['title'] = s.css('h1::text').extract_first()
-        item['html'] = s.css('#job-description p').extract()
-        item['html'].extend(s.css('td, th').extract())
         item['text'] = s.css('#job-description p::text').extract()
         item['text'].extend(s.css('td::text, th::text').extract())
         yield item
