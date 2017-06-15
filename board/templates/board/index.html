@@ -1,4 +1,5 @@
 {% extends 'board/base.html' %}
+{% load humanize %}
 {% block content %}
 	{% if user.is_authenticated %}
 	  <p>Hello {{ user.username }}!</p>       
@@ -24,6 +25,7 @@
            {% if job.site %}
                <p>From: {{ job.site }}</p>
            {% endif %}
+               <p>Added: {{ job.date_added | naturaltime }}</p>
            {% if job.presentable %}
              <p class="text">{{ job.text }}</p>
            {% else %}           

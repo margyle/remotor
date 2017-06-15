@@ -8,6 +8,7 @@ import requests
 
 from .forms import ProfileForm
 from django.conf import settings
+from datetime import datetime
 
 
 class IndexView(TemplateView):
@@ -26,6 +27,9 @@ class IndexView(TemplateView):
                 settings.JOBS_API['PORT']),
             params={'n': 10, 'techs': techs, 'exclude': exclude})
         jobs = json.loads(res.json())
+        for job in jobs:
+            job['date_added'] = datetime.strptime(
+                job['date_added'], "%Y-%m-%dT%H:%M:%S.%f")
         context = self.get_context_data(**kwargs)
         context['jobs'] = jobs
         return self.render_to_response(context)
