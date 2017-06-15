@@ -11,10 +11,21 @@ from django.conf import settings
 from datetime import datetime
 
 
+def pagination_links(count, pages, n):
+    response = {
+    'count': count,
+    'pages': pages,
+    'links': [{'url': '/jobs/?p=%s&n=%s' % (p, n), 'page_no': p}
+              for p in range(1, pages + 1)]}
+    return response
+
+
 class IndexView(TemplateView):
     """Main view for the eventual single page app."""
     template_name = 'board/index.html'
     def get(self, request, *args, **kwargs):
+        n = request.GET.get('n', 10)
+        p = request.GET.get('p', 1)
         if request.user.is_authenticated():
             techs = request.user.profile.required_techs.all()
             exclude = request.user.profile.excluded_techs.all()
@@ -25,11 +36,11 @@ class IndexView(TemplateView):
         res = requests.get('%s:%s/api/v1/jobs/' % (
                 settings.JOBS_API['HOST'],
                 settings.JOBS_API['PORT']),
-            params={'n': 10, 'techs': techs, 'exclude': exclude})
+            params={'n': n, 'p': p, 'techs': techs, 'exclude': exclude})
         result = json.loads(res.json())
         context = self.get_context_data(**kwargs)
-        context['count'] = result['count']
-        context['pages'] = result['pages']
+        context['pagination'] = pagination_links(
+            result['count'], result['pages'], n)
         jobs = result['jobs']
         for job in jobs:
             job['date_added'] = datetime.strptime(

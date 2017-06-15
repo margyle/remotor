@@ -42,5 +42,8 @@
            </ul>
 	   </div>
 	{% endfor %}
-	<p>Pages: {{ pages }}</p>
+    <p>{{ pagination.count }} results ({{ pagination.pages }} pages)</p>
+    {% for link in pagination.links %}
+        <a href="{{ link.url }}">{{ link.page_no }}</a>&nbsp
+    {% endfor %}
 {% endblock %}
