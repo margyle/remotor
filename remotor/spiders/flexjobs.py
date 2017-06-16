@@ -73,7 +73,7 @@ class FlexjobsSpider(scrapy.Spider):
 
 def parse_time(text):
     """Extract the date posted from the ad text."""
-    matches = re.match(r'\d{2)/\d{2)/\d{2)')
+    matches = re.match(r'\d{2)/\d{2)/\d{2)', text)
     if matches:
         date = matches[0]
         parsed = datetime.datetime.strptime('%m/%d/%y', date).isoformat()
