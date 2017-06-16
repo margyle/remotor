@@ -73,8 +73,25 @@ class FlexjobsSpider(scrapy.Spider):
 
 def parse_time(text):
     """Extract the date posted from the ad text."""
-    matches = re.match(r'\d{2)/\d{2)/\d{2)', text)
+    matches = re.findall(r'\d{2}\/\d{2}\/\d{2}', text)
     if matches:
         date = matches[0]
-        parsed = datetime.datetime.strptime('%m/%d/%y', date).isoformat()
+        parsed = datetime.datetime.strptime(date, '%m/%d/%y').isoformat()
         return parsed
+
+
+def test_parse_time():
+    tests = [
+        ('afafs 10/01/17', '2017-10-01T00:00:00'),
+        ('10/01/17 afafs', '2017-10-01T00:00:00'),
+        ('afafs 10/01/17 afafs', '2017-10-01T00:00:00'),
+        ('afafs ', None),
+        ]
+    for test in tests:
+        try:
+            time = parse_time(test[0])
+            assert(time == test[1])
+        except (AssertionError, TypeError, KeyError, ValueError) as e:
+            print(test)
+            print(e)
+            raise
