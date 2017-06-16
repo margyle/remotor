@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """Scrape jobs from careerbuilder.com.
 """
+from datetime import datetime, timedelta
+import re
 from urlparse import urljoin
 
 from scrapy import Request, Selector
@@ -45,4 +47,39 @@ class CareerbuilderSpider(scrapy.Spider):
         item['text'] = s.css('.job-facts::text').extract()
         item['text'].extend(s.css('.item').css('.tag::text').extract())
         item['text'].extend(s.css('.description::text').extract())
+        item['date_added'] = parse_time(
+            s.xpath('//h3[class="job-begin-date"]/text()'))
         yield item
+
+def parse_time(text):
+    text = text.replace('Posted', '').strip()
+    patterns = {
+        "now": '-timedelta(minutes=0)',
+        "a minute ago":'-timedelta(minutes=1)',
+        "an hour ago":'-timedelta(hours=1)',
+                }
+    if text in patterns:
+        return datetime.now() + eval(patterns[text])
+    formats = {
+        r'(\d*) seconds ago':"-timedelta(seconds=int(re.findall(r'(\d*) seconds ago', text)[0]))",
+        r'(\d*) minutes ago':"-timedelta(minutes=int(re.findall(r'(\d*) minutes ago', text)[0]))",
+        r'(\d*) hours ago':"-timedelta(hours=int(re.findall(r'(\d*) hours ago', text)[0]))",
+#        r"%-d day, %-H hour ago": 'datetime.strptime("%-d day, %-H hour ago", text)',
+#        r"%-d days ago": 'datetime.strptime("%-d days ago", text)',
+#        r"%-d days, %-H hour ago": 'datetime.strptime("%-d days, %-H hour ago", text)',
+#        r"%-d day, %-H hours ago": 'datetime.strptime("%-d day, %-H hours ago", text)',
+#        r"%-d days, %-H hours ago": 'datetime.strptime("%-d days, %-H hours ago", text)',
+    }
+    for f in formats:
+        try:
+            return(eval(formats[f]), f)
+        except IndexError as e:
+            print(e)
+            continue
+
+def test_parse_time():
+    tests = [
+        'Posted 4 hours ago',
+        ]
+    delta, f = parse_time(tests[0])
+    assert(parse_time(tests[0])[0] == -timedelta(hours=4))

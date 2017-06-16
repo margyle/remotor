@@ -29,7 +29,6 @@ def make_presentable(text):
     """
     normalised = (re.sub(r'[^\S\r\n]', ' ', t) for t in text)
     normalised = ''.join(t for t in normalised)
-    normalised = '<br>'.join(normalised.split('\n'))
 
     return normalised
 

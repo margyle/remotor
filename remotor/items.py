@@ -18,6 +18,5 @@ class JobItem(scrapy.Item):
     text = scrapy.Field()
     presentable = scrapy.Field()
     date_added = scrapy.Field()
-    date_added = scrapy.Field()
     times_seen = scrapy.Field()
     to_send = scrapy.Field()
