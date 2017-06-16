@@ -57,7 +57,6 @@ class FlexjobsSpider(scrapy.Spider):
     def parse_job(self, response):
         """Parse a joblink into a JobItem.
         """
-#        inspect_response(response, self)
         s = Selector(response)
         item = JobItem()
         item['url'] = response.url
@@ -65,7 +64,10 @@ class FlexjobsSpider(scrapy.Spider):
         item['title'] = s.css('h1::text').extract_first()
         item['text'] = s.css('#job-description p::text').extract()
         item['text'].extend(s.css('td::text, th::text').extract())
-        item['date_added'] = parse_time(item['text'])
+        try:
+            item['date_added'] = parse_time(item['text'])
+        except Exception as e:
+            self.logger.error(e)
         yield item
 
 
