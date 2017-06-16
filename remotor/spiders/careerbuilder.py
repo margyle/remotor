@@ -49,7 +49,7 @@ class CareerbuilderSpider(scrapy.Spider):
         item['text'].extend(s.css('.description::text').extract())
         try:
             item['date_added'] = parse_time(
-                s.xpath('//h3[class="job-begin-date"]/text()').extract_first())
+                s.xpath('//h3[@id="job-begin-date"]/text()').extract_first())
         except Exception as e:
             self.logger.error(e)
         yield item
