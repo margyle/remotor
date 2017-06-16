@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """Scrape jobs from flexjobs.com.
 """
+import datetime
+import re
 from urlparse import urljoin
 
 from scrapy import Request, Selector
@@ -63,4 +65,14 @@ class FlexjobsSpider(scrapy.Spider):
         item['title'] = s.css('h1::text').extract_first()
         item['text'] = s.css('#job-description p::text').extract()
         item['text'].extend(s.css('td::text, th::text').extract())
+        item['date_added'] = parse_time(item['text'])
         yield item
+
+
+def parse_time(text):
+    """Extract the date posted from the ad text."""
+    matches = re.match(r'\d{2)/\d{2)/\d{2)')
+    if matches:
+        date = matches[0]
+        parsed = datetime.datetime.strptime('%m/%d/%y', date).isoformat()
+        return parsed
