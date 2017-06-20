@@ -8,7 +8,6 @@ from scrapy import FormRequest, Request, Selector
 import scrapy
 
 from remotor.items import JobItem
-from scrapy.shell import inspect_response
 
 
 class VirtualvocationsSpider(scrapy.Spider):
@@ -43,7 +42,7 @@ class VirtualvocationsSpider(scrapy.Spider):
         pagelinks = [response.url]
         pagelinks.extend(pagination.xpath(
             '//a[contains(@href, "l-remote/p-")]/@href').extract())
-        for pagelink in pagelinks[:1]:
+        for pagelink in pagelinks:
             request = Request(
                 urljoin(self.root, pagelink),
                 callback=self.parse_jobspage,
@@ -56,7 +55,7 @@ class VirtualvocationsSpider(scrapy.Spider):
         """
         s = Selector(response)
         joblinks = s.xpath(self.job_selector).extract()
-        for joblink in joblinks[:1]:
+        for joblink in joblinks:
             request = Request(
                 urljoin(self.root, joblink),
                 callback=self.parse_job,
@@ -67,7 +66,6 @@ class VirtualvocationsSpider(scrapy.Spider):
         """Parse a joblink into a JobItem.
         """
         s = Selector(response)
-        inspect_response(response, self)
         item = JobItem()
         item['url'] = response.url
         item['site'] = 'VirtualVocations'
