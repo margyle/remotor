@@ -8,6 +8,7 @@ from scrapy import FormRequest, Request, Selector
 import scrapy
 
 from remotor.items import JobItem
+from scrapy.shell import inspect_response
 
 
 class VirtualvocationsSpider(scrapy.Spider):
@@ -42,7 +43,8 @@ class VirtualvocationsSpider(scrapy.Spider):
         pagelinks = [response.url]
         pagelinks.extend(pagination.xpath(
             '//a[contains(@href, "l-remote/p-")]/@href').extract())
-        for pagelink in pagelinks:
+#        for pagelink in pagelinks:
+        for pagelink in pagelinks[:1]:
             request = Request(
                 urljoin(self.root, pagelink),
                 callback=self.parse_jobspage,
@@ -72,7 +74,8 @@ class VirtualvocationsSpider(scrapy.Spider):
         item['title'] = s.css('h1::text').extract_first()
         item['text'] = s.xpath('//div[@id="job_details"]//text()').extract()
         try:
-            posted = s.xpath('//div[@class="col-sm-6"]/p//text()').extract()[3]
+            posted = s.xpath(
+                '//div[@class="col-sm-6"]/p/text()')[8].extract()
             item['date_added'] = parse_date(posted).isoformat()
         except Exception as e:
             self.logger.error(e)
