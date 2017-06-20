@@ -75,7 +75,7 @@ class VirtualvocationsSpider(scrapy.Spider):
         try:
             posted = s.xpath(
                 '//div[@class="col-sm-6"]/p/text()')[8].extract()
-            item['date_added'] = parse_date(posted).isoformat()
+            item['date_posted'] = parse_date(posted).isoformat()
         except Exception as e:
             self.logger.error(e)
         yield item

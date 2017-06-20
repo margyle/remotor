@@ -87,6 +87,8 @@ class MongoDBPipeline(object):
                 # if not (and if not already set), add date to item
                 if not item.get('date_added', False):
                     item['date_added'] = datetime.now().isoformat()
+                if not item.get('date_posted', False):
+                    item['date_posted'] = datetime.now().isoformat()
                 item['times_seen'] = 0
                 self.jobs_collection.insert(item)
         return item

@@ -42,7 +42,7 @@ class IndeedSpider(scrapy.Spider):
                 if posted == "30+ days ago":
                     posted.replace('+', '')
                 parsed = utilities.naturaltime(posted).isoformat()
-                item['date_added'] = parsed
+                item['date_posted'] = parsed
             except Exception as e:
                 self.logger.error(e)
             request = Request(

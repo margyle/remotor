@@ -45,6 +45,8 @@ class IndexView(TemplateView):
         for job in jobs:
             job['date_added'] = parse_prefix(
                 job['date_added'], "%Y-%m-%dT%H:%M:%S")
+            job['date_posted'] = parse_prefix(
+                job['date_posted'], "%Y-%m-%dT%H:%M:%S")
             job['technologies'] = sorted(list(set(job['technologies'])))
         context['jobs'] = jobs
         return self.render_to_response(context)

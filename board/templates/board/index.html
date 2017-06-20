@@ -29,7 +29,8 @@
            {% if job.site %}
                <p>From: {{ job.site }}</p>
            {% endif %}
-               <p>Added: {{ job.date_added | naturaltime }}</p>
+               <p>Posted to {{ job.site }}: {{ job.date_posted | naturaltime }}</p>
+               <p>Added to Remotor: {{ job.date_added | naturaltime }}</p>
            {% if job.presentable %}
              <p class="text">{{ job.presentable | safe }}</p>
            {% else %}           

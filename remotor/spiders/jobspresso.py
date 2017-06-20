@@ -59,7 +59,7 @@ class JobspressoSpider(scrapy.Spider):
             '//div[@itemprop="description"]//text()').extract()
         try:
             posted = s.xpath('//date/text()').extract_first()
-            item['date_added'] = parse_time(posted).isoformat()
+            item['date_posted'] = parse_time(posted).isoformat()
         except Exception as e:
             self.logger.error(e)
         yield item

@@ -65,7 +65,7 @@ class FlexjobsSpider(scrapy.Spider):
         item['text'] = s.css('#job-description p::text').extract()
         item['text'].extend(s.css('td::text, th::text').extract())
         try:
-            item['date_added'] = parse_time(item['text'])
+            item['date_posted'] = parse_time(item['text'])
         except Exception as e:
             self.logger.error(e)
         yield item

@@ -37,7 +37,7 @@ class WorkingnomadsSpider(scrapy.Spider):
             item['text'] = [item['text'] + ' '.join(item.get('tags', []))]
             try:
                 posted = converter.handle(job['_source']['pub_date'])
-                item['date_added'] = posted.split('+')[0]
+                item['date_posted'] = posted.split('+')[0]
             except Exception as e:
                 self.logger.error(e)
             yield item

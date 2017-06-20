@@ -56,7 +56,7 @@ class RemoteworkingSpider(scrapy.Spider):
 
         try:
             posted = s.xpath('//li[@class="date-posted"]//text()').extract_first()
-            item['date_added'] = utilities.naturaltime(
+            item['date_posted'] = utilities.naturaltime(
                 posted.replace('Posted ', '')).isoformat()
         except Exception as e:
             self.logger.error(e)

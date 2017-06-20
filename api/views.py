@@ -26,7 +26,7 @@ class JobsView(View):
         found_jobs = jobs_collection.find(
                 skip=skip,
                 filter=search,
-                ).sort('date_added', -1)
+                ).sort('date_posted', -1)
         response = {'count': found_jobs.count()}
         response['pages'] = found_jobs.count() // int(n) + 1
         found_jobs = list(found_jobs.limit(int(n)))

@@ -35,7 +35,7 @@ class StackoverflowSpider(scrapy.Spider):
                 posted = s.xpath(
                     '//p[@class="-posted-date"]/text()').extract_first()
                 parsed = utilities.stackoverflowtime(posted).isoformat()
-                item['date_added'] = parsed
+                item['date_posted'] = parsed
             except Exception as e:
                 self.logger.error(e)
             request = Request(
