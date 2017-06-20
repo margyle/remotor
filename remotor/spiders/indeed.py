@@ -55,7 +55,7 @@ class IndeedSpider(scrapy.Spider):
         item['text'].extend(s.xpath('//ul/text()').extract())
         item['text'].extend(s.xpath('//span/text()').extract())
         try:
-            posted = s.xpath('//span[@id="lblJobPostDate"]/text()').extract()
+            posted = s.xpath('//span[@id="lblJobPostDate"]/text()').extract_first()
             parsed = datetime.datetime.strptime(posted, '%m/%d/%y').isoformat()
             item['date_added'] = parsed
         except Exception as e:
