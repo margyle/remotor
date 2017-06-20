@@ -35,4 +35,6 @@ class WorkingnomadsSpider(scrapy.Spider):
             item['site'] = 'WorkingNomads'
             item['text'] = converter.handle(job['_source']['description'])
             item['text'] = [item['text'] + ' '.join(item.get('tags', []))]
+            posted = converter.handle(job['_source']['pub_date'])
+            item['date_added'] = posted.split('+')[0]
             yield item

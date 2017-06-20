@@ -8,6 +8,7 @@ from scrapy import Request, Selector
 import scrapy
 
 from remotor.items import JobItem
+from remotor.spiders import utilities
 from remotor.spiders.utilities import build_response
 
 
@@ -54,4 +55,8 @@ class RemoteworkingSpider(scrapy.Spider):
         item['title'] = s.css('h1::text').extract_first()
         item['text'] = s.xpath(
             '//div[@itemprop="description"]//text()').extract()
+
+        posted = s.xpath('//li[@class="date-posted"]//text()').extract_first()
+        item['date_added'] = utilities.naturaltime(
+            posted.replace('Posted ', '')).isotime()
         yield item

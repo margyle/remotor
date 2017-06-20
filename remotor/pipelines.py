@@ -32,6 +32,10 @@ def make_presentable(text):
 
     return normalised
 
+# to move into separate handling later
+DELETE_PHRASES = [
+    'Apply Save this job Save Delete',
+    ]
 
 class RemotorPipeline(object):
     """Basic processing of the JobItem.
@@ -41,6 +45,8 @@ class RemotorPipeline(object):
         """
         item['presentable'] = make_presentable(item['text'])
         item['text'] = clean_text(item['text'])
+        for phrase in DELETE_PHRASES:
+            item['text'] = item['text'].replace(phrase, '')
         title = clean_text([item['title']])
         item['technologies'] = get_tech(title)
         item['technologies'].extend(get_tech(item['text']))

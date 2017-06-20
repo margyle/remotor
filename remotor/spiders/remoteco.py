@@ -7,6 +7,7 @@ from scrapy import Request, Selector
 import scrapy
 
 from remotor.items import JobItem
+from remotor.spiders import utilities
 
 
 class RemotecoSpider(scrapy.Spider):
@@ -50,6 +51,9 @@ class RemotecoSpider(scrapy.Spider):
         job.xpath('p[1]')
         item['text'] = s.xpath(
             '//div[@class="job_description"]//text()').extract()
+        posted = s.xpath('//time//text()').extract_first()
+        item['date_added'] = utilities.naturaltime(
+            posted.replace('Posted ', '')).isotime()
         yield item
 
 

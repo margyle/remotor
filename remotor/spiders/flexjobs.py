@@ -92,6 +92,4 @@ def test_parse_time():
             time = parse_time(test[0])
             assert(time == test[1])
         except (AssertionError, TypeError, KeyError, ValueError) as e:
-            print(test)
-            print(e)
             raise
