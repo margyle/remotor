@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 """Scrape jobs from careerbuilder.com.
 """
-from datetime import datetime, timedelta
-import re
 from urlparse import urljoin
 
 from scrapy import Request, Selector

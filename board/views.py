@@ -55,7 +55,7 @@ def parse_prefix(line, fmt):
         t = datetime.strptime(line, fmt)
     except ValueError as v:
         flag = 'unconverted data remains: '
-        if len(v.args) > 0 and v.args[0].startswith():
+        if len(v.args) > 0 and v.args[0].startswith(flag):
             line = line[:-(len(v.args[0]) - len(flag))]
             t = datetime.strptime(line, fmt)
         else:

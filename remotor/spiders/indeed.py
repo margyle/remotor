@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 """Scrape jobs from indeed.com.
 """
-import datetime
-import re
 from urlparse import urljoin
 
-from django.contrib.humanize.templatetags.humanize import naturaltime
 from scrapy import Request, Selector
 import scrapy
 
 from remotor.items import JobItem
+from remotor.spiders import utilities
 
 
 class IndeedSpider(scrapy.Spider):
@@ -43,7 +41,7 @@ class IndeedSpider(scrapy.Spider):
                 posted = s.xpath('//span[@class="date"]/text()').extract_first()
                 if posted == "30+ days ago":
                     posted.replace('+', '')
-                parsed = naturaltime(posted).isoformat()
+                parsed = utilities.naturaltime(posted).isoformat()
                 item['date_added'] = parsed
             except Exception as e:
                 self.logger.error(e)
