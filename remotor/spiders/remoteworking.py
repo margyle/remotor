@@ -8,8 +8,8 @@ from scrapy import Request, Selector
 import scrapy
 
 from remotor.items import JobItem
-from remotor.spiders import utilities
-from remotor.spiders.utilities import build_response
+from remotor import utilities
+from remotor.utilities import build_response
 
 
 class RemoteworkingSpider(scrapy.Spider):

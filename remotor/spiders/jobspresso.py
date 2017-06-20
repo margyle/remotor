@@ -10,7 +10,7 @@ import scrapy
 from scrapy.http import Request
 
 from remotor.items import JobItem
-from remotor.spiders.utilities import build_response
+from remotor.utilities import build_response
 
 
 class JobspressoSpider(scrapy.Spider):
