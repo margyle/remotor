@@ -57,12 +57,15 @@ class JobspressoSpider(scrapy.Spider):
             '//h2[@class="page-title"]//text()').extract_first()
         item['text'] = s.xpath(
             '//div[@itemprop="description"]//text()').extract()
-        posted = s.xpath('//date/text()').extract()
-        item['date_added'] = parse_date(posted).isoformat()
+        try:
+            posted = s.xpath('//date/text()').extract_first()
+            item['date_added'] = parse_time(posted).isoformat()
+        except Exception as e:
+            self.logger.error(e)
         yield item
 
 
-def parse_date(text, now=None):
+def parse_time(text, now=None):
     """Parse date in the format "Posted <month> <day>"."""
     if not now:
         now = datetime.datetime.now()

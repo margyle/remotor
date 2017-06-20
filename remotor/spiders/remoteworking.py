@@ -56,7 +56,10 @@ class RemoteworkingSpider(scrapy.Spider):
         item['text'] = s.xpath(
             '//div[@itemprop="description"]//text()').extract()
 
-        posted = s.xpath('//li[@class="date-posted"]//text()').extract_first()
-        item['date_added'] = utilities.naturaltime(
-            posted.replace('Posted ', '')).isoformat()
+        try:
+            posted = s.xpath('//li[@class="date-posted"]//text()').extract_first()
+            item['date_added'] = utilities.naturaltime(
+                posted.replace('Posted ', '')).isoformat()
+        except Exception as e:
+            self.logger.error(e)
         yield item

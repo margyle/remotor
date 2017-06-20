@@ -51,9 +51,12 @@ class RemotecoSpider(scrapy.Spider):
         job.xpath('p[1]')
         item['text'] = s.xpath(
             '//div[@class="job_description"]//text()').extract()
-        posted = s.xpath('//time//text()').extract_first()
-        item['date_added'] = utilities.naturaltime(
-            posted.replace('Posted ', '')).isoformat()
+        try:
+            posted = s.xpath('//time//text()').extract_first()
+            item['date_added'] = utilities.naturaltime(
+                posted.replace('Posted ', '')).isoformat()
+        except Exception as e:
+            self.logger.error(e)
         yield item
 
 

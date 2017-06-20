@@ -73,8 +73,11 @@ class VirtualvocationsSpider(scrapy.Spider):
         item['site'] = 'VirtualVocations'
         item['title'] = s.css('h1::text').extract_first()
         item['text'] = s.xpath('//div[@id="job_details"]//text()').extract()
-        posted = s.xpath('//div[@class="col-sm-6"]/p//text()').extract()[3]
-        item['date_added'] = parse_date(posted).isoformat()
+        try:
+            posted = s.xpath('//div[@class="col-sm-6"]/p//text()').extract()[3]
+            item['date_added'] = parse_date(posted).isoformat()
+        except Exception as e:
+            self.logger.error(e)
         yield item
 
 

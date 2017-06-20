@@ -50,8 +50,11 @@ class WwrSpider(scrapy.Spider):
             '.listing-container').xpath('div/text()').extract()
         item['text'].extend(s.css(
             '.listing-container').xpath('ul/li/text()').extract())
-        posted = s.xpath('//div/h3/text()').extract_first()
-        item['date_added'] = parse_date(posted).isoformat()
+        try:
+            posted = s.xpath('//div/h3/text()').extract_first()
+            item['date_added'] = parse_date(posted).isoformat()
+        except Exception as e:
+            self.logger.error(e)
         yield item
 
 
