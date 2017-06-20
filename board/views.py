@@ -43,12 +43,24 @@ class IndexView(TemplateView):
             result['count'], result['pages'], n)
         jobs = result['jobs']
         for job in jobs:
-            job['date_added'] = ':'.join(job['date_added'].split(':')[:-1])
-            job['date_added'] = datetime.strptime(
-                job['date_added'], "%Y-%m-%dT%H:%M")
+            job['date_added'] = parse_prefix(
+                job['date_added'], "%Y-%m-%dT%H:%M:%S")
             job['technologies'] = sorted(list(set(job['technologies'])))
         context['jobs'] = jobs
         return self.render_to_response(context)
+
+
+def parse_prefix(line, fmt):
+    try:
+        t = datetime.strptime(line, fmt)
+    except ValueError as v:
+        flag = 'unconverted data remains: '
+        if len(v.args) > 0 and v.args[0].startswith():
+            line = line[:-(len(v.args[0]) - len(flag))]
+            t = datetime.strptime(line, fmt)
+        else:
+            raise
+    return t
 
 
 class SignupView(FormView):
