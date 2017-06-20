@@ -43,12 +43,9 @@ class IndexView(TemplateView):
             result['count'], result['pages'], n)
         jobs = result['jobs']
         for job in jobs:
-            try:
-                job['date_added'] = datetime.strptime(
-                    job['date_added'], "%Y-%m-%dT%H:%M:%S.%f")
-            except ValueError:
-                job['date_added'] = datetime.strptime(
-                    job['date_added'], "%Y-%m-%dT%H:%M:%S")
+            job['date_added'] = ':'.join(job['date_added'].split(':')[:-1])
+            job['date_added'] = datetime.strptime(
+                job['date_added'], "%Y-%m-%dT%H:%M")
             job['technologies'] = sorted(list(set(job['technologies'])))
         context['jobs'] = jobs
         return self.render_to_response(context)
