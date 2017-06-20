@@ -85,5 +85,5 @@ def test_parse_time():
              ]
     now = datetime.datetime(2017, 6, 20)
     for test in tests:
-        assert parse_date(test[0], now) == test[1]
+        assert parse_time(test[0], now) == test[1]
 
