@@ -16,6 +16,7 @@ python jobs.
 - remoteworking    [✓]
 - careerbuilder    [✓]
 - indeed           [✓]
+- stackoverflow    [✓]
 
 ## Not yet included
 - remotive         [ ]  Todo with scrapy-splash.
