@@ -53,7 +53,7 @@ class RemotecoSpider(scrapy.Spider):
             '//div[@class="job_description"]//text()').extract()
         posted = s.xpath('//time//text()').extract_first()
         item['date_added'] = utilities.naturaltime(
-            posted.replace('Posted ', '')).isotime()
+            posted.replace('Posted ', '')).isoformat()
         yield item
 
 

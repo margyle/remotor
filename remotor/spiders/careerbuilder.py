@@ -52,7 +52,7 @@ class CareerbuilderSpider(scrapy.Spider):
             posted = s.xpath(
                 '//h3[@id="job-begin-date"]/text()').extract_first()
             item['date_added'] = utilities.naturaltime(
-                posted.replace('Posted ', '')).isotime()
+                posted.replace('Posted ', '')).isoformat()
         except Exception as e:
             self.logger.error(e)
         yield item

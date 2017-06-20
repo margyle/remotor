@@ -58,5 +58,5 @@ class RemoteworkingSpider(scrapy.Spider):
 
         posted = s.xpath('//li[@class="date-posted"]//text()').extract_first()
         item['date_added'] = utilities.naturaltime(
-            posted.replace('Posted ', '')).isotime()
+            posted.replace('Posted ', '')).isoformat()
         yield item
