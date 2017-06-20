@@ -5,7 +5,7 @@ from scrapy import Request, Selector
 import scrapy
 
 from remotor.items import JobItem
-from remotor.spiders import utilities
+from remotor import utilities
 
 
 class StackoverflowSpider(scrapy.Spider):
@@ -27,6 +27,7 @@ class StackoverflowSpider(scrapy.Spider):
                 continue
             item = JobItem()
             item['url'] = urljoin(self.root, joblink)
+            item['site'] = 'StackOverflow'
             item['title'] = job.xpath('//h2/a/@title').extract_first()
             item['text'] = job.xpath(
                 '//a[@class="post-tag"]/text()').extract()

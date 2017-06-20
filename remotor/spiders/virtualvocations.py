@@ -8,7 +8,6 @@ from scrapy import FormRequest, Request, Selector
 import scrapy
 
 from remotor.items import JobItem
-from scrapy.shell import inspect_response
 
 
 class VirtualvocationsSpider(scrapy.Spider):

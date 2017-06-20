@@ -9,7 +9,6 @@ import scrapy
 
 from remotor.items import JobItem
 from remotor import utilities
-from remotor.utilities import build_response
 
 
 class RemoteworkingSpider(scrapy.Spider):
@@ -34,7 +33,7 @@ class RemoteworkingSpider(scrapy.Spider):
         """
         data = json.loads(response.text)
         html = data['html']
-        response = build_response(html)
+        response = utilities.build_response(html)
         s = Selector(response)
         joblinks = s.xpath(self.job_selector).extract()
         for joblink in joblinks:

@@ -7,7 +7,6 @@ import time
 import pymongo
 from scrapy.conf import settings
 from scrapy.exceptions import DropItem
-from scrapy.mail import MailSender
 
 from main.techs import get_tech
 import logging
