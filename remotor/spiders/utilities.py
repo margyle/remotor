@@ -42,6 +42,25 @@ def naturaltime(text, now=None):
     return now + delta
 
 
+def stackoverflowtime(text, now=None):
+    """Convert a StackOverflow naturaltime string to a datetime object."""
+    if not now:
+        now = datetime.now()
+
+    if "ago" in text:
+        multiplier = -1
+    else:
+        raise ValueError("%s is not a valid stackoverflow time" % text)
+
+    hours = get_first(r'(\d*)h', text)
+    days = get_first(r'(\d*)d', text)
+    weeks = get_first(r'(\d*)w', text)
+    days += (weeks * 7)
+    delta = timedelta(days=days, hours=hours)
+    delta *= multiplier
+    return now + delta
+
+
 def get_first(pattern, text):
     """Return either a matched number or 0."""
     matches = re.findall(pattern, text)
