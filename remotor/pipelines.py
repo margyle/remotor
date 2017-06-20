@@ -96,13 +96,7 @@ class MongoDBPipeline(object):
 class EmailPipeline(object):
     """Email out job if it meets our requirements.
     """
-    mailer = MailSender(
-        smtphost=os.environ.get('BOT_SMTP_HOST'),
-        mailfrom=os.environ.get('BOT_EMAIL'),
-        smtpport=int(os.environ.get('BOT_SMTP_PORT')),
-        smtpuser=os.environ.get('BOT_EMAIL'),
-        smtppass=os.environ.get('BOT_PASSWORD'),
-        )
+    mailer = settings['MAILER']
 
     def __init__(self, stats):
         self.stats = stats

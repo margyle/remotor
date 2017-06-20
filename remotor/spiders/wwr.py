@@ -26,7 +26,6 @@ class WwrSpider(scrapy.Spider):
     def parse(self, response):
         """Get the joblinks and hand them off.
         """
-        self.logger.info("URI: %s" % self.settings['MONGODB_URI'])
         s = Selector(response)
         joblinks = s.xpath(self.job_selector).extract()
         for joblink in joblinks:

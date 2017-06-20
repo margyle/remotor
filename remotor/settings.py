@@ -7,6 +7,11 @@ commonly used. You can find more settings consulting the documentation:
     http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 """
+import os
+
+from scrapy.mail import MailSender
+
+
 BOT_NAME = 'remotor'
 
 SPIDER_MODULES = ['remotor.spiders']
@@ -21,11 +26,24 @@ USER_AGENT = 'Hire me for scraping jobs! (jamiebull1@gmail.com)'
 ROBOTSTXT_OBEY = False
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
-ITEM_PIPELINES = {
-    'remotor.pipelines.RemotorPipeline': 300,
-    'remotor.pipelines.MongoDBPipeline': 400,
-    'remotor.pipelines.EmailPipeline': 500,
-}
+if os.environ.get('IN_PRODUCTION', False):
+    ITEM_PIPELINES = {
+        'remotor.pipelines.RemotorPipeline': 300,
+        'remotor.pipelines.MongoDBPipeline': 400,
+        'remotor.pipelines.EmailPipeline': 500,
+    }
+    MAILER = MailSender(
+        smtphost=os.environ.get('BOT_SMTP_HOST'),
+        mailfrom=os.environ.get('BOT_EMAIL'),
+        smtpport=int(os.environ.get('BOT_SMTP_PORT')),
+        smtpuser=os.environ.get('BOT_EMAIL'),
+        smtppass=os.environ.get('BOT_PASSWORD'),
+        )
+else:
+    ITEM_PIPELINES = {
+        'remotor.pipelines.RemotorPipeline': 300,
+    }
+    MAILER = None
 
 MONGODB_JOBS_COLLECTION = "jobs"
 
