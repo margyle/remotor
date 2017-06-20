@@ -5,6 +5,7 @@ import datetime
 import re
 from urlparse import urljoin
 
+from django.contrib.humanize.templatetags.humanize import naturaltime
 from scrapy import Request, Selector
 import scrapy
 
@@ -38,6 +39,14 @@ class IndeedSpider(scrapy.Spider):
             item['title'] = job.xpath('h2/a/@title').extract_first()
             item['text'] = job.xpath(
                 'table//span[@class="summary"]/text()').extract()
+            try:
+                posted = s.xpath('//span[@class="date"]/text()').extract_first()
+                if posted == "30+ days ago":
+                    posted.replace('+', '')
+                parsed = naturaltime(posted).isoformat()
+                item['date_added'] = parsed
+            except Exception as e:
+                self.logger.error(e)
             request = Request(
                 item['url'],
                 callback=self.parse_job,
@@ -54,10 +63,4 @@ class IndeedSpider(scrapy.Spider):
         item['text'].extend(s.xpath('//p/text()').extract())
         item['text'].extend(s.xpath('//ul/text()').extract())
         item['text'].extend(s.xpath('//span/text()').extract())
-        try:
-            posted = s.xpath('//span[@id="lblJobPostDate"]/text()').extract_first()
-            parsed = datetime.datetime.strptime(posted, '%m/%d/%y').isoformat()
-            item['date_added'] = parsed
-        except Exception as e:
-            self.logger.error(e)
         yield item
