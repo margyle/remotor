@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', board_views.IndexView.as_view(), name='index'),
     url(r'^jobs/$', board_views.IndexView.as_view(), name='index'),
+    url(r'^index/$', board_views.IndexView.as_view(), name='index'),
     url(r'^profile/$',
         board_views.ProfileView.as_view(success_url="/profile/"),
         name='profile'),
