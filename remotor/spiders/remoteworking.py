@@ -29,7 +29,6 @@ class RemoteworkingSpider(scrapy.Spider):
     job_selector = (
         '//a[starts-with(@href, "http://www.remoteworking.co/job/")]/@href')
 
-
     def parse(self, response):
         """Get the joblinks and hand them off.
         """
