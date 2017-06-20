@@ -33,11 +33,20 @@ def naturaltime(text, now=None):
     text = text.replace('an ', '1 ')
     text = text.replace('a ', '1 ')
 
+    years = get_first(r'(\d*) year', text)
+    months = get_first(r'(\d*) month', text)
+    weeks = get_first(r'(\d*) week', text)
     days = get_first(r'(\d*) day', text)
+    days = days + weeks * 7 + months * 30 + years * 365
+
     hours = get_first(r'(\d*) hour', text)
     minutes = get_first(r'(\d*) minute', text)
     seconds = get_first(r'(\d*) second', text)
-    delta = timedelta(days=days, hours=hours, minutes=minutes, seconds=seconds)
+    delta = timedelta(
+        days=days,
+        hours=hours,
+        minutes=minutes,
+        seconds=seconds)
     delta *= multiplier
     return now + delta
 
