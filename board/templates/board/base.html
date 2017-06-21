@@ -9,8 +9,10 @@
       <link rel="shortcut icon" type="image/png" href="{% static 'favicon.png' %}" />
     </head>
     <body>
-      {% include "board/navbar.html"%}
-	  {% block content %}
-	  {% endblock content %}
+      <div class="grid">
+          {% include "board/navbar.html"%}
+    	  {% block content %}
+    	  {% endblock content %}
+      </div>
 	</body>
 </html>

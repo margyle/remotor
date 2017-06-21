@@ -1,5 +1,6 @@
 {% extends 'board/base.html' %}
 {% load humanize %}
+{% load staticfiles %}
 {% block content %}
     <div class="welcome">
 	{% if user.is_authenticated %}
@@ -8,7 +9,7 @@
 	  <p>Hello anonymous user!</p>
 	{% endif %}
 	</div>
-	<h1>Remotor - Remote Python (and more) jobs</h1>
+	<h1>Remote Python (and more) jobs</h1>
 	<div class="intro">
 	<p>This site is a work in progress so apologies in advance for the roughness
 	around the edges.</p>
@@ -22,32 +23,5 @@
 	<p>This site is run on a totally voluntary basis and we aren't taking any
 	kind of a cut or kickback from the job sites.</p>
 	</div>
-	<h2>Jobs</h2>
-	{% for job in jobs %}
-	   <div class="job">
-           <a href="{{ job.url }}"><h3>{{ job.title }}</h3></a>
-           {% if job.site %}
-               <p>From: {{ job.site }}</p>
-           {% endif %}
-               <p>Posted to {{ job.site }}: {{ job.date_posted | naturaltime }}</p>
-               <p>Added to Remotor: {{ job.date_added | naturaltime }}</p>
-           {% if job.presentable %}
-             <p class="text">{{ job.presentable | safe }}</p>
-           {% else %}           
-             <p class="text">{{ job.text }}</p>
-           {% endif %}
-           <ul>
-             {% for tech in job.technologies %}
-               <li>{{ tech }}</li>
-             {% endfor %}
-           </ul>
-	   </div>
-	{% endfor %}
-    <p>{{ pagination.count }} results ({{ pagination.pages }} pages)</p>
-    {% for link in pagination.links %}
-        <a href="{{ link.url }}">{{ link.page_no }}</a>&nbsp
-    {% endfor %}
-    <script>
-        setTimeout("location.reload(true);",5 * 60 * 1000);  // 5 mins
-    </script>
+	<img class="background" src="{% static 'img/picos.jpg' %}" alt="picos de europa"></img>
 {% endblock %}

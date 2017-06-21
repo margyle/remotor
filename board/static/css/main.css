@@ -3,6 +3,7 @@ h1, h2, h3, h4{
     font-weight: 300;
     text-transform: uppercase;
     margin-bottom: 0px;
+    color: #174;
 }
 
 body {
@@ -13,11 +14,38 @@ a {
     text-align: center;
     display: flex-inline;
 }
+.navbar {
+    padding: 1em 0.75em 1em;
+    color: #fff;
+    background-color: #7a8;
+}
+.navbar a {
+    color: #fff;
+    font-size: 1.2em;
+}
 .job {
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
 }
-
+.job-title {
+    color: #174;
+}
+.techs-list ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0.5em;
+}
+.techs-list ul li {
+    display: inline;
+    margin: .2em;
+    padding: .3em;
+    color: #fff;
+    background-color: #7a8;
+    line-height: 2.2em;
+}
+.background {
+    width: 100%;	
+}
 .plan {
 	border: 1px solid #ccc;
 }

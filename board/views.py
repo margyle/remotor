@@ -11,18 +11,17 @@ from django.conf import settings
 from datetime import datetime
 
 
-def pagination_links(count, pages, n):
-    response = {
-    'count': count,
-    'pages': pages,
-    'links': [{'url': '/jobs/?p=%s&n=%s' % (p, n), 'page_no': p}
-              for p in range(1, pages + 1)]}
-    return response
-
-
 class IndexView(TemplateView):
-    """Main view for the eventual single page app."""
+    """View for the landing page."""
     template_name = 'board/index.html'
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        return self.render_to_response(context)
+
+
+class JobsView(TemplateView):
+    """Main view for the eventual jobs board."""
+    template_name = 'board/jobs.html'
     def get(self, request, *args, **kwargs):
         n = request.GET.get('n', 10)
         p = request.GET.get('p', 1)
@@ -50,6 +49,15 @@ class IndexView(TemplateView):
             job['technologies'] = sorted(list(set(job['technologies'])))
         context['jobs'] = jobs
         return self.render_to_response(context)
+
+
+def pagination_links(count, pages, n):
+    response = {
+    'count': count,
+    'pages': pages,
+    'links': [{'url': '/jobs/?p=%s&n=%s' % (p, n), 'page_no': p}
+              for p in range(1, pages + 1)]}
+    return response
 
 
 def parse_prefix(line, fmt):

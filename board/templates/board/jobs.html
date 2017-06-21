@@ -1,0 +1,42 @@
+{% extends 'board/base.html' %}
+{% load humanize %}
+{% block content %}
+    <div class="welcome">
+	{% if user.is_authenticated %}
+	  <p>Hello {{ user.username }}!</p>       
+	{% else %}
+	  <p>Hello anonymous user!</p>
+	{% endif %}
+	</div>
+	<h1>Remote Python (and more) jobs</h1>
+	<h2>Jobs</h2>
+	{% for job in jobs %}
+	   <div class="job">
+           <a class="job-title" href="{{ job.url }}"><h3>{{ job.title }}</h3></a>
+           {% if job.site %}
+               <p>From: {{ job.site }}</p>
+           {% endif %}
+               <p>Posted to {{ job.site }}: {{ job.date_posted | naturaltime }}</p>
+               <p>Added to Remotor: {{ job.date_added | naturaltime }}</p>
+           {% if job.presentable %}
+             <p class="text">{{ job.presentable | safe }}</p>
+           {% else %}           
+             <p class="text">{{ job.text }}</p>
+           {% endif %}
+           <div class="techs-list">
+               <ul>
+                 {% for tech in job.technologies %}
+                   <li>{{ tech }}</li>
+                 {% endfor %}
+               </ul>
+           </div>
+	   </div>
+	{% endfor %}
+    <p>{{ pagination.count }} results ({{ pagination.pages }} pages)</p>
+    {% for link in pagination.links %}
+        <a href="{{ link.url }}">{{ link.page_no }}</a>&nbsp
+    {% endfor %}
+    <script>
+        setTimeout("location.reload(true);",5 * 60 * 1000);  // 5 mins
+    </script>
+{% endblock %}
