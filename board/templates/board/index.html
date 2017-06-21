@@ -47,4 +47,7 @@
     {% for link in pagination.links %}
         <a href="{{ link.url }}">{{ link.page_no }}</a>&nbsp
     {% endfor %}
+    <script>
+        setTimeout("location.reload(true);",3600);
+    </script>
 {% endblock %}
