@@ -56,6 +56,11 @@ def stackoverflowtime(text, now=None):
     if not now:
         now = datetime.now()
 
+    if text.strip() == 'yesterday':
+        delta = timedelta(days=1)
+        delta *= -1
+        return now + delta
+
     if "ago" in text:
         multiplier = -1
     else:
