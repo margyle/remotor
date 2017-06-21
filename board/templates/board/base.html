@@ -6,7 +6,7 @@
       <title>Remotor Jobs Board</title>
       {% load staticfiles %}
       <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
-      <link rel="shortcut icon" type="image/png" href="{{STATIC_URL}}/favicon.png"/>
+      <link rel="shortcut icon" type="image/png" href="{% static 'favicon.png' %}" />
     </head>
     <body>
       {% include "board/navbar.html"%}
