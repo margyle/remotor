@@ -12,7 +12,7 @@ class StackoverflowSpider(scrapy.Spider):
     name = "stackoverflow"
     root = "https://stackoverflow.com"
     allowed_domains = ["stackoverflow.com"]
-    start_urls = ['https://stackoverflow.com/jobs?q=python&l=remote']
+    start_urls = ['https://stackoverflow.com/jobs?l=remote']
     job_selector = '//div[contains(@class, "-job-item")]'
 
     def parse(self, response):

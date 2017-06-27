@@ -22,7 +22,7 @@ class FlexjobsSpider(scrapy.Spider):
     root = "https://www.flexjobs.com"
     allowed_domains = ["www.flexjobs.com"]
     start_urls = [
-        'https://www.flexjobs.com/search?search=python&location=remote']
+        'https://www.flexjobs.com/search?tele_level=All+Telecommuting']
 
     job_selector = (
         '//div[@id="joblistarea"]//a[starts-with(@href, "/publicjobs/")]/@href')

@@ -19,7 +19,7 @@ class IndeedSpider(scrapy.Spider):
     name = "indeed"
     root = 'https://www.indeed.com'
     allowed_domains = ["www.indeed.com"]
-    start_urls = ['https://www.indeed.com/jobs?q=python&l=Remote']
+    start_urls = ['https://www.indeed.com/jobs?l=Remote&rbl=Remote']
 
     job_selector = '.row, .result'
 

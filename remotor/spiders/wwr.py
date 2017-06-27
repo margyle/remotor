@@ -19,7 +19,7 @@ class WwrSpider(scrapy.Spider):
     name = "wwr"
     root = "https://weworkremotely.com"
     allowed_domains = ["weworkremotely.com"]
-    start_urls = ['https://weworkremotely.com/jobs/search?term=python']
+    start_urls = ['https://weworkremotely.com/jobs']
 
     job_selector = '//a[starts-with(@href, "/jobs/")]/@href'
 

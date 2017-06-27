@@ -20,7 +20,7 @@ class LandingjobsSpider(scrapy.Spider):
     root = 'https://landing.jobs'
     allowed_domains = ["landing.jobs"]
     start_urls = [
-        'https://landing.jobs/jobs/search.json?page=1&q=python&remote=true']
+        'https://landing.jobs/jobs/search.json?page=1&remote=true']
 
     def parse(self, response):
         """Get the joblinks and hand them off.

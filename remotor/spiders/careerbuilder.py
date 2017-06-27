@@ -19,7 +19,7 @@ class CareerbuilderSpider(scrapy.Spider):
     name = "careerbuilder"
     root = 'http://www.careerbuilder.com'
     allowed_domains = ["www.careerbuilder.com"]
-    start_urls = ['http://www.careerbuilder.com/jobs-remote-python']
+    start_urls = ['http://www.careerbuilder.com/jobs-remote']
 
     job_selector = '//a[starts-with(@href, "/job/")]/@href'
 

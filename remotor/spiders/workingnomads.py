@@ -20,7 +20,7 @@ class WorkingnomadsSpider(scrapy.Spider):
     name = "workingnomads"
     allowed_domains = ["www.workingnomads.co"]
     start_urls = [
-        'https://www.workingnomads.co/jobsapi/job/_search?sort=premium:desc,pub_date:desc&_source=company,category_name,description,instructions,id,external_id,slug,title,pub_date,tags,source,apply_url,premium&size=20&from=0&q=(tags:%22python%22)',
+        'https://www.workingnomads.co/jobsapi/job/_search?sort=premium:desc,pub_date:desc&_source=company,category_name,description,instructions,id,external_id,slug,title,pub_date,tags,source,apply_url,premium&size=20&from=0',
         ]
 
     def parse(self, response):

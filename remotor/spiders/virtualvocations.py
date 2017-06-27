@@ -30,7 +30,7 @@ class VirtualvocationsSpider(scrapy.Spider):
         """
         return [
             FormRequest("https://www.virtualvocations.com/jobs/",
-                formdata={'search': 'python', 'location': 'remote'},
+                formdata={'search': '', 'location': 'remote'},
                 callback=self.parse)
                 ]
 

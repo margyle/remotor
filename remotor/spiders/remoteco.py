@@ -20,7 +20,7 @@ class RemotecoSpider(scrapy.Spider):
     root = "https://remote.co"
     allowed_domains = ["remote.co"]
     start_urls = [
-        'https://remote.co/jm-ajax/get_listings/?search_keywords=python']
+        'https://remote.co/jm-ajax/get_listings/']
     job_selector = (
         '//a[starts-with(@href, "\\")]/@href')
 

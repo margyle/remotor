@@ -22,7 +22,7 @@ class RemoteworkingSpider(scrapy.Spider):
     root = 'http://www.remoteworking.co'
     allowed_domains = ["remoteworking.co"]
     start_urls = [
-        'http://www.remoteworking.co/jm-ajax/get_listings/?search_keywords=python&search_location=&search_categories%5B%5D=&per_page=20',
+        'http://www.remoteworking.co/jm-ajax/get_listings/?search_location=&search_categories%5B%5D=&per_page=20',
         ]
 
     job_selector = (
