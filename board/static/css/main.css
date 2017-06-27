@@ -30,6 +30,9 @@ a {
 .job-title {
     color: #174;
 }
+form {
+	color: #174;
+}
 .techs-list ul {
     list-style-type: none;
     margin: 0;
@@ -42,6 +45,20 @@ a {
     color: #fff;
     background-color: #7a8;
     line-height: 2.2em;
+}
+#id_required_techs {
+    list-style-type: none;
+    margin: .2em;
+    padding: .3em;
+    color: #fff;
+    background-color: #7a8;
+}
+#id_excluded_techs {
+    list-style-type: none;
+    margin: .2em;
+    padding: .3em;
+    color: #fff;
+    background-color: #7a8;
 }
 .background {
     width: 100%;	
