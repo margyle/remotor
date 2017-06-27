@@ -3,7 +3,7 @@ REMOTOR
 # Intro
 
 This repo contains scrapy spiders for a number of job sites which list remote
-python jobs.
+software development jobs.
 
 ## Included
 - weworkremotely   [✓]
