@@ -22,8 +22,8 @@ class ProfileForm(forms.ModelForm):
         widgets = {
             'add_required_techs': TextInput(),
             'add_excluded_techs': TextInput(),
-            'required_techs': CheckboxSelectMultiple(attrs={"checked":""}),
-            'excluded_techs': CheckboxSelectMultiple(attrs={"checked":""}),
+            'required_techs': CheckboxSelectMultiple(),
+            'excluded_techs': CheckboxSelectMultiple(),
         }
 
     def clean(self, commit=True):
