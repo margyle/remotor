@@ -4,7 +4,7 @@ gunicorn==19.8.1
 html2text==2018.1.9
 nltk==3.3
 psycopg2==2.7.5
-pymongo==3.7.0
+pymongo==3.7.1
 requests==2.19.1
 Scrapy==1.5.1
 whitenoise==3.3.1
