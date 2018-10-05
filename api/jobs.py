@@ -10,5 +10,5 @@ client = pymongo.MongoClient(
     socketTimeoutMS=None,
     socketKeepAlive=True
     )
-db = client.get_default_database()
+db = client.get_database()
 jobs_collection = db[jobsdb['COLLECTION']]

@@ -17,8 +17,8 @@
                {% if job.site %}
                    <p>From: {{ job.site }}</p>
                {% endif %}
-                   <p>Posted to {{ job.site }}: {{ job.date_posted | naturaltime }}</p>
-                   <p>Added to Remotor: {{ job.date_added | naturaltime }}</p>
+               <p>Posted to {{ job.site }}: {{ job.date_posted | naturaltime }}</p>
+               <p>Added to Remotor: {{ job.date_added | naturaltime }}</p>
                <div class="techs-list">
                    <ul>
                      {% for tech in job.technologies %}
