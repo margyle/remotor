@@ -18,6 +18,4 @@ from django.conf.urls import url
 from .views import JobsView
 
 
-urlpatterns = [
-    url(r'^jobs/$', JobsView.as_view(), name='jobs'),
-]
+urlpatterns = [url(r"^jobs/$", JobsView.as_view(), name="jobs")]

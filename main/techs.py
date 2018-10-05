@@ -11,8 +11,8 @@ from nltk.tokenize import word_tokenize
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
-with open(os.path.join(THIS_DIR, 'tags.json'), 'rb') as f_in:
-    tags = json.loads(f_in.read())['tags']
+with open(os.path.join(THIS_DIR, "tags.json"), "rb") as f_in:
+    tags = json.loads(f_in.read())["tags"]
 
 
 def get_tech(text):
@@ -23,9 +23,9 @@ def get_tech(text):
     for s in sentences:
         tokens = word_tokenize(s)
         techs |= set(tag for tag in tags if tag in tokens)
-        bigrams = ['-'.join(ngram) for ngram in ngrams(tokens, 2)]
+        bigrams = ["-".join(ngram) for ngram in ngrams(tokens, 2)]
         techs |= set(tag for tag in tags if tag in bigrams)
-        trigrams = ['-'.join(ngram) for ngram in ngrams(tokens, 3)]
+        trigrams = ["-".join(ngram) for ngram in ngrams(tokens, 3)]
         techs |= set(tag for tag in tags if tag in trigrams)
     return list(techs)
 
@@ -39,7 +39,5 @@ def test_get_tech():
     text = "python javascript. ruby on rails, objective c"
     techs = get_tech(text)
     assert all(
-        t in techs
-        for t in ['python', 'javascript', 'ruby-on-rails', 'objective-c']
-        )
-
+        t in techs for t in ["python", "javascript", "ruby-on-rails", "objective-c"]
+    )

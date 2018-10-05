@@ -6,6 +6,7 @@ from django.dispatch import receiver
 
 class RequiredKeyword(models.Model):
     name = models.CharField(max_length=255, unique=True)
+
     def __unicode__(self):
         """Unicode representation for admin site."""
         return self.name
@@ -13,6 +14,7 @@ class RequiredKeyword(models.Model):
 
 class ExcludedKeyword(models.Model):
     name = models.CharField(max_length=255, unique=True)
+
     def __unicode__(self):
         """Unicode representation for admin site."""
         return self.name
@@ -31,6 +33,7 @@ class Profile(models.Model):
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
+
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):

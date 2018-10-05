@@ -20,30 +20,24 @@ class JobspressoSpider(scrapy.Spider):
     ads.
 
     """
+
     name = "jobspresso"
-    root = 'https://jobspresso.co'
+    root = "https://jobspresso.co"
     allowed_domains = ["jobspresso.co"]
-    start_urls = [
-        'https://jobspresso.co/jm-ajax/get_listings/?search_keywords=remote',
-        ]
+    start_urls = ["https://jobspresso.co/jm-ajax/get_listings/?search_keywords=remote"]
 
-    job_selector = (
-        '//a[starts-with(@href, "https://jobspresso.co/job/")]/@href')
-
+    job_selector = '//a[starts-with(@href, "https://jobspresso.co/job/")]/@href'
 
     def parse(self, response):
         """Get the joblinks and hand them off.
         """
         data = json.loads(response.text)
-        html = data['html']
+        html = data["html"]
         response = utilities.build_response(html)
         s = Selector(response)
         joblinks = s.xpath(self.job_selector).extract()
         for joblink in joblinks:
-            request = Request(
-                urljoin(self.root, joblink),
-                callback=self.parse_job,
-                )
+            request = Request(urljoin(self.root, joblink), callback=self.parse_job)
             yield request
 
     def parse_job(self, response):
@@ -51,15 +45,13 @@ class JobspressoSpider(scrapy.Spider):
         """
         s = Selector(response)
         item = JobItem()
-        item['url'] = response.url
-        item['site'] = 'Jobspresso'
-        item['title'] = s.xpath(
-            '//h2[@class="page-title"]//text()').extract_first()
-        item['text'] = s.xpath(
-            '//div[@itemprop="description"]//text()').extract()
+        item["url"] = response.url
+        item["site"] = "Jobspresso"
+        item["title"] = s.xpath('//h2[@class="page-title"]//text()').extract_first()
+        item["text"] = s.xpath('//div[@itemprop="description"]//text()').extract()
         try:
-            posted = s.xpath('//date/text()').extract_first()
-            item['date_posted'] = parse_time(posted).isoformat()
+            posted = s.xpath("//date/text()").extract_first()
+            item["date_posted"] = parse_time(posted).isoformat()
         except Exception as e:
             self.logger.error(e)
         yield item
@@ -70,7 +62,7 @@ def parse_time(text, now=None):
     if not now:
         now = datetime.datetime.now()
     this_year = now.year
-    parsed = datetime.datetime.strptime(text, 'Posted %B %d')
+    parsed = datetime.datetime.strptime(text, "Posted %B %d")
     if (parsed.month, parsed.day) == (now.month, now.day):
         return datetime.datetime.now()  # add the time
     if datetime.datetime(this_year, parsed.month, parsed.day) <= now:
@@ -80,10 +72,10 @@ def parse_time(text, now=None):
 
 
 def test_parse_time():
-    tests = [('Posted June 20', datetime.datetime(2017, 6, 20)),
-             ('Posted June 21', datetime.datetime(2016, 6, 21)),
-             ]
+    tests = [
+        ("Posted June 20", datetime.datetime(2017, 6, 20)),
+        ("Posted June 21", datetime.datetime(2016, 6, 21)),
+    ]
     now = datetime.datetime(2017, 6, 20)
     for test in tests:
         assert parse_time(test[0], now) == test[1]
-

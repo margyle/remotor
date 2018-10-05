@@ -18,29 +18,26 @@ class RemoteworkingSpider(scrapy.Spider):
     links to the ads.
 
     """
+
     name = "remoteworking"
-    root = 'http://www.remoteworking.co'
+    root = "http://www.remoteworking.co"
     allowed_domains = ["remoteworking.co"]
     start_urls = [
-        'http://www.remoteworking.co/jm-ajax/get_listings/?search_location=&search_categories%5B%5D=&per_page=20',
-        ]
+        "http://www.remoteworking.co/jm-ajax/get_listings/?search_location=&search_categories%5B%5D=&per_page=20"
+    ]
 
-    job_selector = (
-        '//a[starts-with(@href, "http://www.remoteworking.co/job/")]/@href')
+    job_selector = '//a[starts-with(@href, "http://www.remoteworking.co/job/")]/@href'
 
     def parse(self, response):
         """Get the joblinks and hand them off.
         """
         data = json.loads(response.text)
-        html = data['html']
+        html = data["html"]
         response = utilities.build_response(html)
         s = Selector(response)
         joblinks = s.xpath(self.job_selector).extract()
         for joblink in joblinks:
-            request = Request(
-                urljoin(self.root, joblink),
-                callback=self.parse_job,
-                )
+            request = Request(urljoin(self.root, joblink), callback=self.parse_job)
             yield request
 
     def parse_job(self, response):
@@ -48,16 +45,16 @@ class RemoteworkingSpider(scrapy.Spider):
         """
         s = Selector(response)
         item = JobItem()
-        item['url'] = response.url
-        item['site'] = 'RemoteWorking'
-        item['title'] = s.css('h1::text').extract_first()
-        item['text'] = s.xpath(
-            '//div[@itemprop="description"]//text()').extract()
+        item["url"] = response.url
+        item["site"] = "RemoteWorking"
+        item["title"] = s.css("h1::text").extract_first()
+        item["text"] = s.xpath('//div[@itemprop="description"]//text()').extract()
 
         try:
             posted = s.xpath('//li[@class="date-posted"]//text()').extract_first()
-            item['date_posted'] = utilities.naturaltime(
-                posted.replace('Posted ', '')).isoformat()
+            item["date_posted"] = utilities.naturaltime(
+                posted.replace("Posted ", "")
+            ).isoformat()
         except Exception as e:
             self.logger.error(e)
         yield item

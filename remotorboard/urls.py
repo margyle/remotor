@@ -21,16 +21,20 @@ from board import views as board_views
 
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^$', board_views.IndexView.as_view(), name='index'),
-    url(r'^index/$', board_views.IndexView.as_view(), name='index'),
-    url(r'^jobs/$', board_views.JobsView.as_view(), name='jobs'),
-    url(r'^profile/$',
+    url(r"^admin/", admin.site.urls),
+    url(r"^$", board_views.IndexView.as_view(), name="index"),
+    url(r"^index/$", board_views.IndexView.as_view(), name="index"),
+    url(r"^jobs/$", board_views.JobsView.as_view(), name="jobs"),
+    url(
+        r"^profile/$",
         board_views.ProfileView.as_view(success_url="/profile/"),
-        name='profile'),
-    url(r'^signup/$',
+        name="profile",
+    ),
+    url(
+        r"^signup/$",
         board_views.SignupView.as_view(success_url="/jobs/"),
-        name='signup'),
-    url('^', include('django.contrib.auth.urls')),
-    url(r'^api/v1/', include('api.urls')),
+        name="signup",
+    ),
+    url("^", include("django.contrib.auth.urls")),
+    url(r"^api/v1/", include("api.urls")),
 ]

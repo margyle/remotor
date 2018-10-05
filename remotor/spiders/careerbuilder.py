@@ -16,10 +16,11 @@ class CareerbuilderSpider(scrapy.Spider):
     This is a simple site with a single page of jobs, with links to the ads.
 
     """
+
     name = "careerbuilder"
-    root = 'http://www.careerbuilder.com'
+    root = "http://www.careerbuilder.com"
     allowed_domains = ["www.careerbuilder.com"]
-    start_urls = ['http://www.careerbuilder.com/jobs-remote']
+    start_urls = ["http://www.careerbuilder.com/jobs-remote"]
 
     job_selector = '//a[starts-with(@href, "/job/")]/@href'
 
@@ -29,10 +30,7 @@ class CareerbuilderSpider(scrapy.Spider):
         s = Selector(response)
         joblinks = s.xpath(self.job_selector).extract()
         for joblink in joblinks:
-            request = Request(
-                urljoin(self.root, joblink),
-                callback=self.parse_job,
-                )
+            request = Request(urljoin(self.root, joblink), callback=self.parse_job)
             yield request
 
     def parse_job(self, response):
@@ -40,17 +38,17 @@ class CareerbuilderSpider(scrapy.Spider):
         """
         s = Selector(response)
         item = JobItem()
-        item['url'] = response.url.split('?')[0]
-        item['site'] = 'CareerBuilder'
-        item['title'] = s.css('.card').css('h1::text').extract_first()
-        item['text'] = s.css('.job-facts::text').extract()
-        item['text'].extend(s.css('.item').css('.tag::text').extract())
-        item['text'].extend(s.css('.description::text').extract())
+        item["url"] = response.url.split("?")[0]
+        item["site"] = "CareerBuilder"
+        item["title"] = s.css(".card").css("h1::text").extract_first()
+        item["text"] = s.css(".job-facts::text").extract()
+        item["text"].extend(s.css(".item").css(".tag::text").extract())
+        item["text"].extend(s.css(".description::text").extract())
         try:
-            posted = s.xpath(
-                '//h3[@id="job-begin-date"]/text()').extract_first()
-            item['date_posted'] = utilities.naturaltime(
-                posted.replace('Posted ', '')).isoformat()
+            posted = s.xpath('//h3[@id="job-begin-date"]/text()').extract_first()
+            item["date_posted"] = utilities.naturaltime(
+                posted.replace("Posted ", "")
+            ).isoformat()
         except Exception as e:
             self.logger.error(e)
         yield item

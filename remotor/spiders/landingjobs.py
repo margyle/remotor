@@ -16,22 +16,19 @@ class LandingjobsSpider(scrapy.Spider):
     This is a simple site with a JSON object of jobs, with url links to the ads.
 
     """
+
     name = "landingjobs"
-    root = 'https://landing.jobs'
+    root = "https://landing.jobs"
     allowed_domains = ["landing.jobs"]
-    start_urls = [
-        'https://landing.jobs/jobs/search.json?page=1&remote=true']
+    start_urls = ["https://landing.jobs/jobs/search.json?page=1&remote=true"]
 
     def parse(self, response):
         """Get the joblinks and hand them off.
         """
         data = json.loads(response.text)
-        joblinks = [job['url'] for job in data['offers']]
+        joblinks = [job["url"] for job in data["offers"]]
         for joblink in joblinks:
-            request = Request(
-                urljoin(self.root, joblink),
-                callback=self.parse_job,
-                )
+            request = Request(urljoin(self.root, joblink), callback=self.parse_job)
             yield request
 
     def parse_job(self, response):
@@ -39,11 +36,11 @@ class LandingjobsSpider(scrapy.Spider):
         """
         s = Selector(response)
         item = JobItem()
-        item['url'] = response.url
-        item['site'] = 'LandingJobs'
-        item['title'] = s.css('h1::text').extract_first()
-        item['text'] = s.xpath(
-            '//section[@class="ld-job-details"]//text()').extract()
-        item['text'].extend(s.xpath(
-            '//section[@class="ld-job-offer-section"]//text()').extract())
+        item["url"] = response.url
+        item["site"] = "LandingJobs"
+        item["title"] = s.css("h1::text").extract_first()
+        item["text"] = s.xpath('//section[@class="ld-job-details"]//text()').extract()
+        item["text"].extend(
+            s.xpath('//section[@class="ld-job-offer-section"]//text()').extract()
+        )
         yield item

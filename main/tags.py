@@ -6,17 +6,12 @@ tags from a different StackExchange site in future.
 """
 import requests
 
-data = {
-    'pagesize': '100',
-    'order': 'desc',
-    'sort': 'popular',
-    'site': 'stackoverflow',
-    }
+data = {"pagesize": "100", "order": "desc", "sort": "popular", "site": "stackoverflow"}
 url = "https://api.stackexchange.com/2.2/tags"
 tags = []
 for p in range(1, 11):
-    data['page'] = p
+    data["page"] = p
     res = requests.get(url.format(**locals()), params=data)
     res = res.json()
-    tags.extend(item['name'] for item in res['items'])
+    tags.extend(item["name"] for item in res["items"])
 print(tags)

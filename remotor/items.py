@@ -7,6 +7,7 @@ import scrapy
 class JobItem(scrapy.Item):
     """Item representing a job ad.
     """
+
     _id = scrapy.Field()
     url = scrapy.Field()
     title = scrapy.Field()

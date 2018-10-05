@@ -16,12 +16,13 @@ class IndeedSpider(scrapy.Spider):
     This is a simple site with a single page of jobs, with links to the ads.
 
     """
-    name = "indeed"
-    root = 'https://www.indeed.com'
-    allowed_domains = ["www.indeed.com"]
-    start_urls = ['https://www.indeed.com/jobs?l=Remote&rbl=Remote']
 
-    job_selector = '.row, .result'
+    name = "indeed"
+    root = "https://www.indeed.com"
+    allowed_domains = ["www.indeed.com"]
+    start_urls = ["https://www.indeed.com/jobs?l=Remote&rbl=Remote"]
+
+    job_selector = ".row, .result"
 
     def parse(self, response):
         """Get the joblinks and hand them off.
@@ -29,36 +30,31 @@ class IndeedSpider(scrapy.Spider):
         s = Selector(response)
         jobs = s.css(self.job_selector)
         for job in jobs:
-            joblink = job.xpath('h2/a/@href').extract_first()
+            joblink = job.xpath("h2/a/@href").extract_first()
             if not joblink:
                 continue
             item = JobItem()
-            item['url'] = urljoin(self.root, joblink)
-            item['title'] = job.xpath('h2/a/@title').extract_first()
-            item['text'] = job.xpath(
-                'table//span[@class="summary"]/text()').extract()
+            item["url"] = urljoin(self.root, joblink)
+            item["title"] = job.xpath("h2/a/@title").extract_first()
+            item["text"] = job.xpath('table//span[@class="summary"]/text()').extract()
             try:
                 posted = s.xpath('//span[@class="date"]/text()').extract_first()
                 if posted == "30+ days ago":
-                    posted.replace('+', '')
+                    posted.replace("+", "")
                 parsed = utilities.naturaltime(posted).isoformat()
-                item['date_posted'] = parsed
+                item["date_posted"] = parsed
             except Exception as e:
                 self.logger.error(e)
-            request = Request(
-                item['url'],
-                callback=self.parse_job,
-                meta={'item': item},
-                )
+            request = Request(item["url"], callback=self.parse_job, meta={"item": item})
             yield request
 
     def parse_job(self, response):
         """Parse a joblink into a JobItem.
         """
-        item = response.meta['item']
-        item['site'] = 'Indeed'
+        item = response.meta["item"]
+        item["site"] = "Indeed"
         s = Selector(response)
-        item['text'].extend(s.xpath('//p/text()').extract())
-        item['text'].extend(s.xpath('//ul/text()').extract())
-        item['text'].extend(s.xpath('//span/text()').extract())
+        item["text"].extend(s.xpath("//p/text()").extract())
+        item["text"].extend(s.xpath("//ul/text()").extract())
+        item["text"].extend(s.xpath("//span/text()").extract())
         yield item
