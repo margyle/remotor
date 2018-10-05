@@ -25,7 +25,7 @@ class JobsView(TemplateView):
     def get(self, request, *args, **kwargs):
         n = request.GET.get('n', 10)
         p = request.GET.get('p', 1)
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             techs = request.user.profile.required_techs.all()
             exclude = request.user.profile.excluded_techs.all()
             techs = ','.join(tech.name for tech in techs)
