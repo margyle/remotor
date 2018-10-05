@@ -124,5 +124,5 @@ class ProfileView(LoginRequiredMixin, FormView):
             profile_form.save()
             return self.form_valid(profile_form)
         else:
-            print(profile_form.errors)
+            # print(profile_form.errors)
             return self.form_invalid(profile_form, **kwargs)
