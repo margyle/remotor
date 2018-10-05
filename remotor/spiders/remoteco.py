@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Scrape jobs from remote.co.
 """
-from urlparse import urljoin
+from urllib.parse import urljoin
 
 from scrapy import Request, Selector
 import scrapy

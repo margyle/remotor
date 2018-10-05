@@ -2,7 +2,7 @@
 """Scrape jobs from remoteworking.co.
 """
 import json
-from urlparse import urljoin
+from urllib.parse import urljoin
 
 from scrapy import Request, Selector
 import scrapy

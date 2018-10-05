@@ -4,7 +4,7 @@ from bson import json_util
 from django.http.response import JsonResponse
 from django.views.generic.base import View
 
-import jobs
+from . import jobs
 
 
 class JobsView(View):

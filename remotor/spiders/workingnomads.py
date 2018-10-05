@@ -2,7 +2,7 @@
 """Scrape jobs from workingnomads.co.
 """
 import json
-from urlparse import urljoin
+from urllib.parse import urljoin
 
 import html2text
 import scrapy

@@ -2,7 +2,7 @@
 """Scrape jobs from virtualvocations.com.
 """
 import datetime
-from urlparse import urljoin
+from urllib.parse import urljoin
 
 from scrapy import FormRequest, Request, Selector
 import scrapy

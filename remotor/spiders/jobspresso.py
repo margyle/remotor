@@ -3,7 +3,7 @@
 """
 import datetime
 import json
-from urlparse import urljoin
+from urllib.parse import urljoin
 
 from scrapy import Selector
 import scrapy

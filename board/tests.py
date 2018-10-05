@@ -33,7 +33,7 @@ class TestRegistration(LiveServerTestCase):
         self.assertTrue('Login' in response.content)
         self.client.login(username='xxx', password="xxxxyyyy")
         response = self.client.get('/login/')
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         self.assertTrue('Logout' in response.content)
 
     def test_logout(self):
