@@ -42,7 +42,7 @@ class CareerbuilderSpider(scrapy.Spider):
         item = JobItem()
         item['url'] = response.url.split('?')[0]
         item['site'] = 'CareerBuilder'
-        item['title'] = s.css('h1::text').extract_first()
+        item['title'] = s.css('.card').css('h1::text').extract_first()
         item['text'] = s.css('.job-facts::text').extract()
         item['text'].extend(s.css('.item').css('.tag::text').extract())
         item['text'].extend(s.css('.description::text').extract())
