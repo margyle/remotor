@@ -1,0 +1,10 @@
+Django
+dj-database-url
+gunicorn
+html2text
+nltk
+psycopg2
+pymongo
+requests
+Scrapy
+whitenoise
