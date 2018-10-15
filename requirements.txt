@@ -37,7 +37,7 @@ requests==2.19.1
 scrapy==1.5.1
 service-identity==17.0.0  # via scrapy
 six==1.11.0               # via automat, cryptography, nltk, parsel, pyhamcrest, pyopenssl, scrapy, w3lib
-twisted==18.7.0           # via scrapy
+twisted==18.9.0           # via scrapy
 urllib3==1.23             # via requests
 w3lib==1.19.0             # via parsel, scrapy
 whitenoise==4.1
