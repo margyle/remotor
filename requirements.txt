@@ -36,7 +36,7 @@ queuelib==1.5.0           # via scrapy
 requests==2.21.0
 scrapy==1.6.0
 service-identity==18.1.0  # via scrapy
-six==1.11.0               # via automat, cryptography, nltk, parsel, pyhamcrest, pyopenssl, scrapy, w3lib
+six==1.12.0               # via automat, cryptography, nltk, parsel, pyhamcrest, pyopenssl, scrapy, w3lib
 twisted==18.9.0           # via scrapy
 urllib3==1.24.1             # via requests
 w3lib==1.19.0             # via parsel, scrapy
