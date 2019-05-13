@@ -21,7 +21,7 @@ hyperlink==19.0.0         # via twisted
 idna==2.8                 # via cryptography, hyperlink, requests
 incremental==17.5.0       # via twisted
 lxml==4.3.3               # via parsel, scrapy
-nltk==3.4
+nltk==3.4.1
 parsel==1.5.1             # via scrapy
 psycopg2==2.7.6.1
 pyasn1-modules==0.2.2     # via service-identity
